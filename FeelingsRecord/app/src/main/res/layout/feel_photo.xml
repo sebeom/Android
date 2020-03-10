@@ -4,20 +4,9 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:orientation="vertical" >
 
-<GridView
-    android:id="@+id/photos"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp"
-    android:columnWidth="90dp"
-    android:numColumns="3"
-    android:verticalSpacing="10dp"
-    android:horizontalSpacing="10dp"
-    android:stretchMode="columnWidth"
-    android:gravity="center">
-</GridView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>
