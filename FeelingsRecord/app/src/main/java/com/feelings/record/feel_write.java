@@ -1,6 +1,9 @@
 package com.feelings.record;
 
 
-public class feel_write {
+import androidx.fragment.app.Fragment;
+
+public class feel_write extends Fragment {
+
 
 }
