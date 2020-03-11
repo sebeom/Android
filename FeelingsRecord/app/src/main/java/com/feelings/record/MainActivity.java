@@ -10,6 +10,8 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -27,4 +29,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+}
+        setContentView(R.layout.backup);
+    }
+
+    public void back(){ // 뒤로가기 버튼
+        super.onBackPressed();
+    }
+
 }
