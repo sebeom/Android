@@ -166,6 +166,8 @@
             android:singleLine="true"
             android:textColor="#94000000"
             android:textColorHint="#99858383"
+            android:textColorHighlight="#009688"
+            android:textColorLink="#009688"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -176,7 +178,8 @@
         android:orientation="vertical">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/writeInput"
+
+            android:id="@+id/saveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
