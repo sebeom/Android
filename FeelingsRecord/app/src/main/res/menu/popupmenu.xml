@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/w"
+        android:title="리스트보기" >
+
+    </item>
+    <item
+        android:id="@+id/d"
+        android:title="이달의 기분" >
+
+    </item>
+    <item
+        android:id="@+id/c"
+        android:title="설정" />
+</menu>
+
