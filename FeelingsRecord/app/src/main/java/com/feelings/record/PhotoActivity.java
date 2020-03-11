@@ -6,13 +6,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class PhotoActivity extends AppCompatActivity {
-    RecyclerView recyclerView;
+    ImageView imageView;
     photoAdapter adapter;
 
     @Override
