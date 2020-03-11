@@ -30,11 +30,3 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 }
-        setContentView(R.layout.backup);
-    }
-
-    public void back(){ // 뒤로가기 버튼
-        super.onBackPressed();
-    }
-
-}
