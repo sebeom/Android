@@ -28,5 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        setContentView(R.layout.feel_write);
+
+
     }
 }

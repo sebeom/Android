@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical">
+
+    <!--<LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/buttonSelTest"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/feel1_select" />
+    </LinearLayout>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/datePicker"
+            android:layout_width="199dp"
+            android:layout_height="46dp" />
+
+        <Spinner
+            android:id="@+id/timePicker"
+            android:layout_width="133dp"
+            android:layout_height="46dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:baselineAligned="false"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/feel1"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/feel1_select" />
+
+            <TextView
+                android:id="@+id/feel1text"
+                android:layout_width="52dp"
+                android:layout_height="wrap_content"
+                android:text="아주좋음"
+                android:textColor="#1B4B35" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/feel2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/feel2_select" />
+
+            <TextView
+                android:id="@+id/feel2text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="좋음"
+                android:textColor="#35714B" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/feel3"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/feel3_select" />
+
+            <TextView
+                android:id="@+id/feel3text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="보통"
+                android:textColor="#A09937" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/feel4"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/feel4_select" />
+
+            <TextView
+                android:id="@+id/feel4text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="슬픔"
+                android:textColor="#E1BC25" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/feel5"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/feel5_select" />
+
+            <TextView
+                android:id="@+id/feel5text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="화남"
+                android:textColor="#DC6E31" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="328dp"
+            android:layout_height="106dp"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:hint="왜 이런 기분이 들었나요?"
+            android:inputType="textPersonName"
+            android:lineSpacingExtra="5sp"
+            android:singleLine="true"
+            android:textColor="#94000000"
+            android:textColorHint="#99858383"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom|right"
+        android:orientation="vertical">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/writeInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginEnd="28dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="33dp"
+            android:clickable="true"
+            android:src="@drawable/check"
+            android:tint="#FFFFFF"
+            app:backgroundTint="#C4195537"
+            app:backgroundTintMode="screen"
+            app:elevation="3dp"
+            app:fabSize="auto"
+            app:rippleColor="#ABFFFFFF" />
+    </LinearLayout>
+
+</LinearLayout>
