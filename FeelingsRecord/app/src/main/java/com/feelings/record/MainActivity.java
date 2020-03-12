@@ -26,18 +26,6 @@ Feel_List feel_list;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(getApplicationContext(), PhotoActivity.class);
-                startActivity(intent);
-
-            }
-        });
-        setContentView(R.layout.feel_write);
-
-
         feel_list=new Feel_List();
 
 //처음화면에 리스트형식으로 일기창이 보이게하기
