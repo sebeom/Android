@@ -17,11 +17,27 @@
         app:layout_constraintStart_toStartOf="@+id/linearLayout"
         app:layout_constraintTop_toTopOf="parent">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <Button
             android:id="@+id/menu"
             android:layout_width="44dp"
             android:layout_height="70dp"
-            android:background="@drawable/three" />
+            android:background="@drawable/three"
+            android:visibility="visible"
+            />
+        <Button
+            android:id="@+id/menu2"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/back"
+            android:visibility="invisible"
+            />
+
+    </FrameLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -31,7 +47,8 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/container">
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
         <Button
             android:id="@+id/cardMode"
@@ -39,19 +56,15 @@
             android:layout_height="40dp"
             android:layout_gravity="right"
             android:background="@drawable/card" />
+
     </LinearLayout>
 
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </FrameLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
@@ -64,6 +77,8 @@
             app:rippleColor="#9C27B0"
             app:srcCompat="@android:drawable/ic_input_add"
             tools:ignore="MissingConstraints" />
+
+
 
     </FrameLayout>
 
