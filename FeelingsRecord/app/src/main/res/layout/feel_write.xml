@@ -4,196 +4,155 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical">
-
-    <!--<LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <ImageButton
-            android:id="@+id/buttonSelTest"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/feel1_select" />
-    </LinearLayout>-->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="100dp"
         android:gravity="center"
         android:orientation="horizontal">
 
-        <Spinner
-            android:id="@+id/datePicker"
-            android:layout_width="199dp"
-            android:layout_height="46dp" />
-
-        <Spinner
-            android:id="@+id/timePicker"
-            android:layout_width="133dp"
-            android:layout_height="46dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:baselineAligned="false"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:id="@+id/feel1"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="@drawable/feel1_select" />
-
-            <TextView
-                android:id="@+id/feel1text"
-                android:layout_width="52dp"
-                android:layout_height="wrap_content"
-                android:text="아주좋음"
-                android:textColor="#1B4B35" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:id="@+id/feel2"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="@drawable/feel2_select" />
-
-            <TextView
-                android:id="@+id/feel2text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="좋음"
-                android:textColor="#35714B" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:id="@+id/feel3"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="@drawable/feel3_select" />
-
-            <TextView
-                android:id="@+id/feel3text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="보통"
-                android:textColor="#A09937" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:id="@+id/feel4"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="@drawable/feel4_select" />
-
-            <TextView
-                android:id="@+id/feel4text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="슬픔"
-                android:textColor="#E1BC25" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:id="@+id/feel5"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="@drawable/feel5_select" />
-
-            <TextView
-                android:id="@+id/feel5text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="화남"
-                android:textColor="#DC6E31" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
 
         <EditText
-            android:id="@+id/editText2"
-            android:layout_width="328dp"
-            android:layout_height="106dp"
-            android:layout_marginTop="20dp"
+            android:id="@+id/datePicker"
+            android:layout_width="150dp"
+            android:layout_height="46dp"
+            android:layout_gravity="center"
+            android:autoText="false"
             android:ems="10"
-            android:hint="왜 이런 기분이 들었나요?"
+            android:foregroundGravity="center"
+            android:gravity="center"
             android:inputType="textPersonName"
-            android:lineSpacingExtra="5sp"
-            android:singleLine="true"
-            android:textColor="#94000000"
-            android:textColorHint="#99858383"
-            android:textColorHighlight="#009688"
-            android:textColorLink="#009688"
-            android:textSize="18sp" />
+            android:textColor="#1b4b35" />
+
+        <EditText
+            android:id="@+id/timePicker"
+            android:layout_width="110dp"
+            android:layout_height="46dp"
+            android:layout_gravity="center"
+            android:autoText="false"
+            android:ems="10"
+            android:foregroundGravity="center"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:textColor="#1b4b35" />
+
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom|right"
+        android:id="@+id/feelingPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:foregroundGravity="center"
+        android:gravity="center"
         android:orientation="vertical">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-            android:id="@+id/saveButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_marginEnd="28dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="33dp"
-            android:clickable="true"
-            android:src="@drawable/check"
-            android:tint="#FFFFFF"
-            app:backgroundTint="#C4195537"
-            app:backgroundTintMode="screen"
-            app:elevation="3dp"
-            app:fabSize="auto"
-            app:rippleColor="#ABFFFFFF" />
+            <RadioButton
+                android:id="@+id/feelingBtn1"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:button="@drawable/radio" />
+
+            <RadioButton
+                android:id="@+id/feelingBtn2"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:button="@drawable/radio2" />
+
+            <RadioButton
+                android:id="@+id/feelingBtn3"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:button="@drawable/radio3" />
+
+            <RadioButton
+                android:id="@+id/feelingBtn4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@drawable/radio4" />
+
+            <RadioButton
+                android:id="@+id/feelingBtn5"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:button="@drawable/radio5" />
+
+        </RadioGroup>
+
     </LinearLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/inputText"
+                android:layout_width="328dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:hint="왜 이런 기분이 들었나요?"
+                android:inputType="textPersonName"
+                android:lineSpacingExtra="5sp"
+                android:singleLine="true"
+                android:textColor="#94000000"
+                android:textColorHighlight="#009688"
+                android:textColorHint="#99858383"
+                android:textColorLink="#009688"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="328dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:foregroundGravity="right"
+                app:srcCompat="@drawable/imginput"
+                tools:ignore="VectorDrawableCompat" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom|right"
+            android:orientation="vertical">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+
+                android:id="@+id/saveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_marginEnd="28dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="33dp"
+                android:clickable="true"
+                android:src="@drawable/check"
+                android:tint="#FFFFFF"
+                app:backgroundTint="#C4195537"
+                app:backgroundTintMode="screen"
+                app:elevation="3dp"
+                app:fabSize="auto"
+                app:rippleColor="#ABFFFFFF" />
+        </LinearLayout>
+    </FrameLayout>
 </LinearLayout>
