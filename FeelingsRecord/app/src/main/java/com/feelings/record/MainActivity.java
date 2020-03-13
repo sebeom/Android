@@ -18,45 +18,45 @@ import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity  {
-Feel_List feel_list;
+public class MainActivity extends AppCompatActivity {
+    Feel_List feel_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        feel_list=new Feel_List();
+        feel_list = new Feel_List();
 
 //처음화면에 리스트형식으로 일기창이 보이게하기
-getSupportFragmentManager().beginTransaction().replace(R.id.container,feel_list).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, feel_list).commit();
 
 //메뉴버튼클릭시
-        Button Menubutton= findViewById(R.id.menu);
+        Button Menubutton = findViewById(R.id.menu);
         Menubutton.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
 
-        popupmenu(v);//메뉴바를 누르면 숨겨진 옵션메뉴가 뜨게하기
+                popupmenu(v);//메뉴바를 누르면 숨겨진 옵션메뉴가 뜨게하기
 
-    }//Menubutton의 onClick 메서드 끝
-});//Menubutton의 setOnClickListener끝
+            }//Menubutton의 onClick 메서드 끝
+        });//Menubutton의 setOnClickListener끝
 
 
         //리스트버튼 클릭시
-        Button listButton= findViewById(R.id.cardMode);
+        Button listButton = findViewById(R.id.cardMode);
         listButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(getApplicationContext(),"리스트선택",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "리스트선택", Toast.LENGTH_LONG).show();
             }//listButton onClick 메서드 끝
         });//listButton setOnClickListener끝
 
     }//onCreate 끝
 
-//숨겨진옵션메뉴
-    private void popupmenu(View v){
+    //숨겨진옵션메뉴
+    private void popupmenu(View v) {
 
 
         PopupMenu p = new PopupMenu(
@@ -84,6 +84,7 @@ getSupportFragmentManager().beginTransaction().replace(R.id.container,feel_list)
         getMenuInflater().inflate(R.menu.popupmenu, menu);
         return true;
     }
+
     public void dd(View v) {
         Toast.makeText(getApplicationContext(), "dd", Toast.LENGTH_SHORT).show();
     }
@@ -97,8 +98,7 @@ getSupportFragmentManager().beginTransaction().replace(R.id.container,feel_list)
         if (id == 1) {
             return true;
         }
-        return super.onOptionsItemSelected(item);
-    }
+            return super.onOptionsItemSelected(item);
+        }
 
-
-}//MainActivity 끝
+    }//MainActivity 끝
