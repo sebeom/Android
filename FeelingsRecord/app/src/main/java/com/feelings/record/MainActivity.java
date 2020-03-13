@@ -18,21 +18,27 @@ import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+public class MainActivity extends AppCompatActivity  {
     Feel_List feel_list;
+    Feel_write feel_write;
+    public static final int REQUEST_CODE_MENU = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        feel_list = new Feel_List();
+        feel_list=new Feel_List();
+        feel_write = new Feel_write();
+
 
 //처음화면에 리스트형식으로 일기창이 보이게하기
         getSupportFragmentManager().beginTransaction().replace(R.id.container, feel_list).commit();
 
 //메뉴버튼클릭시
-        Button Menubutton = findViewById(R.id.menu);
+        Button Menubutton= findViewById(R.id.menu);
         Menubutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,14 +55,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(getApplicationContext(), "리스트선택", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"리스트선택",Toast.LENGTH_LONG).show();
             }//listButton onClick 메서드 끝
         });//listButton setOnClickListener끝
+
+        //글쓰기버튼 클릭시
+        FloatingActionButton writeButton= findViewById(R.id.fab);
+        writeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"글쓰기선택",Toast.LENGTH_LONG).show();
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, feel_write).commit();
+
+            }
+        });//글쓰기 끝
 
     }//onCreate 끝
 
     //숨겨진옵션메뉴
-    private void popupmenu(View v) {
+    private void popupmenu(View v){
 
 
         PopupMenu p = new PopupMenu(
@@ -84,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.popupmenu, menu);
         return true;
     }
-
     public void dd(View v) {
         Toast.makeText(getApplicationContext(), "dd", Toast.LENGTH_SHORT).show();
     }
@@ -98,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         if (id == 1) {
             return true;
         }
-            return super.onOptionsItemSelected(item);
-        }
+        return super.onOptionsItemSelected(item);
+    }
 
-    }//MainActivity 끝
+}//MainActivity 끝
