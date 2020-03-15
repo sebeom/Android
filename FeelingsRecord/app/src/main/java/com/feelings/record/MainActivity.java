@@ -21,9 +21,16 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity  {
+<<<<<<< HEAD
     Feel_List feel_list;
     Feel_write feel_write;
     public static final int REQUEST_CODE_MENU = 101;
+=======
+Feel_List feel_list;
+   feel_write feel_write;
+    public static final int REQUEST_CODE_MENU = 101;
+    private int state = 1;
+>>>>>>> origin/yoni
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +38,12 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
 
         feel_list=new Feel_List();
+<<<<<<< HEAD
         feel_write = new Feel_write();
 
+=======
+        feel_write = new feel_write();
+>>>>>>> origin/yoni
 
 //처음화면에 리스트형식으로 일기창이 보이게하기
         getSupportFragmentManager().beginTransaction().replace(R.id.container, feel_list).commit();
