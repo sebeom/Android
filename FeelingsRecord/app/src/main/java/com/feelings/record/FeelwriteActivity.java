@@ -1,58 +1,36 @@
 package com.feelings.record;
 
-import android.Manifest;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
+import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
-
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-import static android.app.Activity.RESULT_CANCELED;
-import static android.app.Activity.RESULT_OK;
-
-public class Feel_write extends Fragment {
-
-    //날짜시간
+public class FeelwriteActivity extends AppCompatActivity {
+    //날짜 시간
     Calendar myCalendar = Calendar.getInstance();
     DatePickerDialog.OnDateSetListener myDatePicker = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -67,18 +45,20 @@ public class Feel_write extends Fragment {
 
     private static final int REQUEST_CODE = 0;
     private ImageView imageView;
+    private TextView textView_Date;
+    private TimePickerDialog.OnTimeSetListener callbackMethod;
+    private EditText editText;
 
 
-
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.feel_write, container, false);
-        initUI(rootView);
+        setContentView(R.layout.activity_feelwrite);
+        initUI();
+
 
         //날짜선택
-        EditText date = (EditText) rootView.findViewById(R.id.datePicker);
+        EditText date = (EditText) findViewById(R.id.datePicker);
 
         SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월 dd일");
         Calendar Dtime = Calendar.getInstance();
@@ -88,12 +68,17 @@ public class Feel_write extends Fragment {
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(getActivity(), myDatePicker, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                new DatePickerDialog(FeelwriteActivity.this, myDatePicker, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
 
+
+
+
+
+
         //시간선택
-        final EditText et_time = (EditText) rootView.findViewById(R.id.timePicker);
+        final EditText et_time = (EditText) findViewById(R.id.timePicker);
 
         SimpleDateFormat format2 = new SimpleDateFormat ( "HH시 mm분");
         Calendar Ttime = Calendar.getInstance();
@@ -113,7 +98,7 @@ public class Feel_write extends Fragment {
                 String format_time1 = format1.format(time.getTime());
                 et_time.setText(format_time1);
 
-                mTimePicker = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                mTimePicker = new TimePickerDialog(FeelwriteActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         String state = "AM";
@@ -123,7 +108,7 @@ public class Feel_write extends Fragment {
                             state = "PM";
                         }
                         // EditText에 출력할 형식 지정
-                        et_time.setText(state + " " + selectedHour + "시 " + selectedMinute + "분");
+                        et_time.setText(/*state + " " + */selectedHour + "시 " + selectedMinute + "분");
 
                         // SimpleDateFormat format1 = new SimpleDateFormat ( state +"HH시 mm분");
                     }
@@ -134,8 +119,15 @@ public class Feel_write extends Fragment {
         });
 
 
-        //사진추가
-        imageView = (ImageView)rootView.findViewById(R.id.imageView);
+
+
+
+
+
+
+    //사진추가
+        imageView = (ImageView)findViewById(R.id.imageView);
+
         imageView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -156,88 +148,54 @@ public class Feel_write extends Fragment {
                 params.height = metrics.heightPixels;
 
                 imageView.setLayoutParams(params);*/
+
             }
         });
-<<<<<<< Updated upstream:FeelingsRecord/app/src/main/java/com/feelings/record/feel_write.java
-
-/*        imageView = getView().findViewById(R.id.imageView);
-        imageView.setOnClickListener(new Button.OnClickListener(){
-            public void onClick(View view){
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                startActivity(intent);
-            }
-        });
-
-*/
-/*
-        imageView = getView().findViewById(R.id.imageView);
-
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override //갤러리 접근
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType
-                        (android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-                getActivity().startActivityForResult(intent, REQUEST_CODE);
-            }
-        });
-*/
-
-
-=======
->>>>>>> Stashed changes:FeelingsRecord/app/src/main/java/com/feelings/record/Feel_write.java
-        return rootView;
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE)
         {
             if(resultCode == RESULT_OK)
             {
                 try{
-                    InputStream in = getActivity().getContentResolver().openInputStream(data.getData());
+                    InputStream in = getContentResolver().openInputStream(data.getData());
 
                     Bitmap img = BitmapFactory.decodeStream(in);
                     in.close();
 
                     imageView.setImageBitmap(img);
-                }catch(Exception e){}
+                }catch(Exception e)
+                {
+
+                }
             }
             else if(resultCode == RESULT_CANCELED)
             {
-                Toast.makeText(getActivity(), "취소", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "사진 선택 취소", Toast.LENGTH_LONG).show();
             }
         }
     }
 
-
-    private void initUI(ViewGroup rootView) {
-
-        FloatingActionButton saveButton = rootView.findViewById(R.id.saveButton);
+    private void initUI() {
+        FloatingActionButton saveButton = findViewById(R.id.saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
-
-
     }
 
     private void updateLabel() {
         String myFormat = "yyyy/MM/dd";    // 출력형식   2018/11/28
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.KOREA);
 
-        EditText et_date = (EditText) getView().findViewById(R.id.datePicker);
+        EditText et_date = (EditText) findViewById(R.id.datePicker);
         et_date.setText(sdf.format(myCalendar.getTime()));
 
         String myFormat2 = "HH시 mm분";
     }
-
-
-
-
 }

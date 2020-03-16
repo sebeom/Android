@@ -5,7 +5,16 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+<<<<<<< Updated upstream
         <item name="colorAccent">@color/colorAccent</item>
+=======
+        <item name="colorAccent">#1B4B35</item>
+        <!--No Title Bar-->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+
+>>>>>>> Stashed changes
     </style>
 
 </resources>
