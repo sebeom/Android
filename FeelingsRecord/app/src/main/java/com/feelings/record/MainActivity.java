@@ -11,17 +11,30 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity  {
+<<<<<<< Updated upstream
 Feel_List feel_list;
    feel_write feel_write;
     public static final int REQUEST_CODE_MENU = 101;
     private int state = 1;
+=======
+    Feel_List feel_list;
+    Feel_write feel_write;
+    public static final int REQUEST_CODE_MENU = 101;
+  private int state = 1;
+>>>>>>> Stashed changes
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+<<<<<<< Updated upstream
         feel_list=new Feel_List();
         feel_write = new feel_write();
+=======
+
+        feel_list = new Feel_List();
+        feel_write = new Feel_write();
+>>>>>>> Stashed changes
 
 //처음화면에 리스트형식으로 일기창이 보이게하기
 getSupportFragmentManager().beginTransaction().replace(R.id.container,feel_list).commit();
