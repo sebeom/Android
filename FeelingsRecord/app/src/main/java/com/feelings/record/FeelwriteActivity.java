@@ -150,7 +150,26 @@ public class FeelwriteActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EditText content = findViewById(R.id.content);
+                if(content.getText().toString().trim().length() == 0)
+                    return;
 
+                ImageView img = findViewById(R.id.imageView);
+                if(img.toString().trim().length() == 0)
+                    return;
+
+                try {
+                    String con = content.getText().toString().trim();
+                    String image = img.toString().trim();
+
+                    Data data = new Data();
+                    data.setContent(con);
+                    data.setImageview(image);
+
+                    DataViewModel.insert(data);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -164,4 +183,5 @@ public class FeelwriteActivity extends AppCompatActivity {
 
         String myFormat2 = "HH시 mm분";
     }
+
 }
