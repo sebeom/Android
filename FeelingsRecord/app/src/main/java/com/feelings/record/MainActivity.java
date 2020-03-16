@@ -11,6 +11,9 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,33 +23,39 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity  {
-<<<<<<< HEAD
     Feel_List feel_list;
     Feel_write feel_write;
     public static final int REQUEST_CODE_MENU = 101;
-=======
-Feel_List feel_list;
-   feel_write feel_write;
-    public static final int REQUEST_CODE_MENU = 101;
     private int state = 1;
->>>>>>> origin/yoni
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        feel_list=new Feel_List();
-<<<<<<< HEAD
+        RecyclerView recyclerView=(RecyclerView)findViewById(R.id.recyclerView);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(layoutManager);
+
+        List<Data> items=new ArrayList<>();
+        Data[] datas=new Data[5];
+        datas[0]=new Data("imagePath1","contents1");
+        datas[1]=new Data("imagePath2","contents2");
+        datas[2]=new Data("imagePath3","contents3");
+        datas[3]=new Data("imagePath4","contents4");
+        datas[4]=new Data("imagePath5","contents5");
+
+        for(int i=0;i<5;i++) items.add(datas[i]);
+
+        RecyclerAdapter adapter = new RecyclerAdapter(getApplicationContext(),items,R.layout.activity_main);
+        recyclerView.setAdapter(adapter);
+
         feel_write = new Feel_write();
-
-=======
-        feel_write = new feel_write();
->>>>>>> origin/yoni
-
-//처음화면에 리스트형식으로 일기창이 보이게하기
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, feel_list).commit();
 
 //메뉴버튼클릭시
         Button Menubutton= findViewById(R.id.menu);
@@ -76,7 +85,9 @@ Feel_List feel_list;
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(),"글쓰기선택",Toast.LENGTH_LONG).show();
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, feel_write).commit();
+                Intent intent = new Intent(getApplicationContext(), FeelwriteActivity.class);
+                startActivity(intent);
+//                getSupportFragmentManager().beginTransaction().replace(R.id.container, feel_write).commit();
 
             }
         });//글쓰기 끝

@@ -40,8 +40,6 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -147,31 +145,6 @@ public class Feel_write extends Fragment {
             }
         });
 
-/*        imageView = getView().findViewById(R.id.imageView);
-        imageView.setOnClickListener(new Button.OnClickListener(){
-            public void onClick(View view){
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                startActivity(intent);
-            }
-        });
-
-*/
-/*
-        imageView = getView().findViewById(R.id.imageView);
-
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override //갤러리 접근
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType
-                        (android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-                getActivity().startActivityForResult(intent, REQUEST_CODE);
-            }
-        });
-*/
-
-
         return rootView;
     }
 
@@ -208,7 +181,6 @@ public class Feel_write extends Fragment {
 
 
     private void initUI(ViewGroup rootView) {
-
         FloatingActionButton saveButton = rootView.findViewById(R.id.saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,8 +188,6 @@ public class Feel_write extends Fragment {
 
             }
         });
-
-
     }
 
     private void updateLabel() {
