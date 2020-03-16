@@ -19,9 +19,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
-<<<<<<< HEAD
 import android.widget.ImageView;
-=======
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -30,7 +28,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import android.widget.AdapterView.OnItemClickListener;
->>>>>>> 4cc184602580f45795a7a66ee213fac96de461fd
 import android.widget.Toast;
 
 import java.io.File;
@@ -38,14 +35,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class PhotoActivity extends AppCompatActivity {
-<<<<<<< HEAD
     ImageView imageView;
     photoAdapter adapter;
-=======
     GridView gridView;
     private Context mContext;
     private Uri imageUri;
->>>>>>> 4cc184602580f45795a7a66ee213fac96de461fd
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
