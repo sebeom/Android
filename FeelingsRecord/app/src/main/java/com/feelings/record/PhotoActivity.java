@@ -112,31 +112,31 @@ public class PhotoActivity extends AppCompatActivity {
             int dpWidth = dp.getWidth();
             int dpHeight = dp.getHeight();*/
 
-            BitmapFactory.Options bo = new BitmapFactory.Options();
-            bo.inPreferredConfig = Bitmap.Config.RGB_565;
-            bo.inJustDecodeBounds = true;
-            BitmapFactory.decodeResource(getResources(), R.id.gridView, bo);
+            BitmapFactory.Options option = new BitmapFactory.Options();
+            option.inPreferredConfig = Bitmap.Config.RGB_565;
+            option.inJustDecodeBounds = true;
+            BitmapFactory.decodeResource(getResources(), R.id.gridView, option);
 
-            bo.inSampleSize = 4;
+            option.inSampleSize = 4;
 
-            ContentResolver cr = getContentResolver();
+            ContentResolver resolver = getContentResolver();
             int id = Integer.parseInt(thumbsIDList.get(position));
-            Bitmap bitmap = MediaStore.Images.Thumbnails.getThumbnail(cr, id,
-                    MediaStore.Images.Thumbnails.MICRO_KIND, bo);
-            //bitmap = getOrientationBitmap(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, bitmap);
+            Bitmap bitmap = MediaStore.Images.Thumbnails.getThumbnail(resolver, id,
+                    MediaStore.Images.Thumbnails.MICRO_KIND, option);
+            // bitmap = getOrientationBitmap(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, bitmap);
             imageView.setImageBitmap(bitmap);
 
             return imageView;
 
         }
 
-        public Bitmap getOrientationBitmap(Uri uri, Bitmap bm){
+        public Bitmap getOrientationBitmap(Uri uri, Bitmap bitmap){
             try {
                 ExifInterface exif = new ExifInterface(uri.getPath());
                 int exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
                 int exifDegree = exifOrientationToDegrees(exifOrientation);
-                bm = rotate(bm, exifDegree);
-                return bm;
+                bitmap = rotate(bitmap, exifDegree);
+                return bitmap;
             }
             catch (IOException e) {
                 e.printStackTrace();
