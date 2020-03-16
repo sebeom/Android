@@ -4,31 +4,39 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Person;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class PhotoActivity extends AppCompatActivity {
+    GridView gridView;
     private Context mContext;
+    private Uri imageUri;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,14 +44,22 @@ public class PhotoActivity extends AppCompatActivity {
         setContentView(R.layout.feel_photo);
         mContext = this;
 
+        gridView = findViewById(R.id.gridView);
+
+        final ImageAdapter ia = new ImageAdapter(this);
+        gridView.setAdapter(ia);
+        gridView.setOnItemClickListener(new OnItemClickListener(){
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id){
+                ia.callImageViewer(position);
+
+            }
+        });
     }
 
     /**==========================================
      * 		        Adapter class
      * ==========================================*/
     public class ImageAdapter extends BaseAdapter {
-        private String imgData;
-        private String geoData;
         private ArrayList<String> thumbsDataList;
         private ArrayList<String> thumbsIDList;
 
@@ -54,8 +70,13 @@ public class PhotoActivity extends AppCompatActivity {
             getThumbInfo(thumbsIDList, thumbsDataList);
         }
 
-        public boolean deleteSelected(int sIndex){
-            return true;
+        public final void callImageViewer(int selectedIndex){
+            Intent intent = new Intent(mContext, photoAdapter.class);
+            String imgPath = getImageInfo(thumbsIDList.get(selectedIndex));
+            intent.putExtra("filename", imgPath);
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(intent, 101);
         }
 
         public int getCount() {
@@ -72,78 +93,123 @@ public class PhotoActivity extends AppCompatActivity {
 
         public View getView(int position, View convertView, ViewGroup parent) {
             ImageView imageView;
+
             if (convertView == null){
                 imageView = new ImageView(mContext);
-                imageView.setLayoutParams(new GridView.LayoutParams(95, 95));
-                imageView.setAdjustViewBounds(false);
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                imageView.setPadding(2, 2, 2, 2);
+                imageView.setLayoutParams(new GridView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,220));
+                imageView.setAdjustViewBounds(true);
+                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                imageView.setPadding(3, 3, 3, 3);
+
             }else{
                 imageView = (ImageView) convertView;
             }
+
+            /*앨범의 화질을 좋게하기위해 넣은코드 적용 안됨 손봐야함
+            * 아니면 밑에있는 섬네일을 수정*/
+            /*Display dp = ((WindowManager) mContext.getSystemService(
+                    Context.WINDOW_SERVICE)).getDefaultDisplay();
+            int dpWidth = dp.getWidth();
+            int dpHeight = dp.getHeight();*/
+
             BitmapFactory.Options bo = new BitmapFactory.Options();
-            bo.inSampleSize = 8;
-            Bitmap bmp = BitmapFactory.decodeFile(thumbsDataList.get(position), bo);
-            Bitmap resized = Bitmap.createScaledBitmap(bmp, 95, 95, true);
-            imageView.setImageBitmap(resized);
+            bo.inPreferredConfig = Bitmap.Config.RGB_565;
+            bo.inJustDecodeBounds = true;
+            BitmapFactory.decodeResource(getResources(), R.id.gridView, bo);
+
+            bo.inSampleSize = 4;
+
+            ContentResolver cr = getContentResolver();
+            int id = Integer.parseInt(thumbsIDList.get(position));
+            Bitmap bitmap = MediaStore.Images.Thumbnails.getThumbnail(cr, id,
+                    MediaStore.Images.Thumbnails.MICRO_KIND, bo);
+            //bitmap = getOrientationBitmap(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, bitmap);
+            imageView.setImageBitmap(bitmap);
 
             return imageView;
+
         }
 
-        private void getThumbInfo(ArrayList<String> thumbsIDs, ArrayList<String> thumbsDatas){
+        public Bitmap getOrientationBitmap(Uri uri, Bitmap bm){
+            try {
+                ExifInterface exif = new ExifInterface(uri.getPath());
+                int exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                int exifDegree = exifOrientationToDegrees(exifOrientation);
+                bm = rotate(bm, exifDegree);
+                return bm;
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        private int exifOrientationToDegrees(int exifOrientation) {
+            if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
+                return 90;
+            } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {
+                return 180;
+            } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {
+                return 270;
+            }
+            return 0;
+        }
+
+        public Bitmap rotate(Bitmap src, float degree) {
+            Matrix matrix = new Matrix();
+            matrix.postRotate(degree);
+            return Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(),
+                    matrix, true);
+        }
+
+        private void getThumbInfo(ArrayList<String> IDs, ArrayList<String> Datas){
+
             String[] proj = {MediaStore.Images.Media._ID,
                     MediaStore.Images.Media.DATA,
-                    MediaStore.Images.Media.DISPLAY_NAME,
-                    MediaStore.Images.Media.SIZE};
+                    MediaStore.Images.Media.DISPLAY_NAME
+            };
 
-            Cursor imageCursor = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    proj, null, null, null);
+            Cursor cs = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    proj, "bucket_display_name='TEST'", null, null);
 
-            if (imageCursor != null && imageCursor.moveToFirst()){
-                String title;
-                String thumbsID;
-                String thumbsImageID;
-                String thumbsData;
-                String data;
-                String imgSize;
+            if (cs.moveToFirst()){
+                String ID;
+                String ImageID;
+                String Data;
 
-                int thumbsIDCol = imageCursor.getColumnIndex(MediaStore.Images.Media._ID);
-                int thumbsDataCol = imageCursor.getColumnIndex(MediaStore.Images.Media.DATA);
-                int thumbsImageIDCol = imageCursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME);
-                int thumbsSizeCol = imageCursor.getColumnIndex(MediaStore.Images.Media.SIZE);
+
+                int IDCol = cs.getColumnIndex(MediaStore.Images.Media._ID);
+                int DataCol = cs.getColumnIndex(MediaStore.Images.Media.DATA);
+                int ImageIDCol = cs.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME);
                 int num = 0;
                 do {
-                    thumbsID = imageCursor.getString(thumbsIDCol);
-                    thumbsData = imageCursor.getString(thumbsDataCol);
-                    thumbsImageID = imageCursor.getString(thumbsImageIDCol);
-                    imgSize = imageCursor.getString(thumbsSizeCol);
+                    ID = cs.getString(IDCol);
+                    Data = cs.getString(DataCol);
+                    ImageID = cs.getString(ImageIDCol);
                     num++;
-                    if (thumbsImageID != null){
-                        thumbsIDs.add(thumbsID);
-                        thumbsDatas.add(thumbsData);
+                    if (ImageID != null){
+                        IDs.add(ID);
+                        Datas.add(Data);
                     }
-                }while (imageCursor.moveToNext());
+                }while (cs.moveToNext());
             }
-            imageCursor.close();
+            cs.close();
             return;
         }
 
-        private String getImageInfo(String ImageData, String Location, String thumbID){
+        private String getImageInfo(String thumbID){
             String imageDataPath = null;
-            String[] proj = {MediaStore.Images.Media._ID,
-                    MediaStore.Images.Media.DATA,
-                    MediaStore.Images.Media.DISPLAY_NAME,
-                    MediaStore.Images.Media.SIZE};
-            Cursor imageCursor = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            String[] proj = {MediaStore.Images.Media.DATA};
+            Cursor cs = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                     proj, "_ID='"+ thumbID +"'", null, null);
 
-            if (imageCursor != null && imageCursor.moveToFirst()){
-                if (imageCursor.getCount() > 0){
-                    int imgData = imageCursor.getColumnIndex(MediaStore.Images.Media.DATA);
-                    imageDataPath = imageCursor.getString(imgData);
+            if (cs.moveToFirst()){
+                if (cs.getCount() > 0){
+                    int imgData = cs.getColumnIndex(MediaStore.Images.Media.DATA);
+                    imageDataPath = cs.getString(imgData);
                 }
             }
-            imageCursor.close();
+            cs.close();
             return imageDataPath;
         }
     }

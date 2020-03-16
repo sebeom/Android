@@ -7,6 +7,13 @@ android:orientation="vertical" >
     <GridView
         android:id="@+id/gridView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:numColumns="auto_fit"
+        android:columnWidth="100dp"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="3dp"
+        android:horizontalSpacing="3dp"
+        />
 
 </LinearLayout>

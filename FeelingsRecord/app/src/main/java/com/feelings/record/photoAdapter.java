@@ -1,84 +1,41 @@
 package com.feelings.record;
 
-import android.app.Person;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.view.Window;
+import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.ArrayList;
-
-public class photoAdapter extends RecyclerView.Adapter<photoAdapter.ViewHolder>
-                                implements OnPersonItemClickListener {
-    ArrayList<Person> items = new ArrayList<Person>();
-    OnPersonItemClickListener listener;
-
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-
-        LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        View itemView = inflater.inflate(R.layout.photo_item, viewGroup, false);
-
-        return new ViewHolder(itemView, this);
-    }
+public class photoAdapter extends Activity{
+    ImageView imageView;
+    private Context mContext = null;
+    private final int imgWidth = 600;
+    private final int imgHeight = 500;
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.photo_item);
+        mContext = this;
 
-        Person item = items.get(position);
+        /** 전송메시지 */
+        Intent i = getIntent();
+        Bundle extras = i.getExtras();
+        String imgPath = extras.getString("filename");
 
-    }
+        /** 완성된 이미지 보여주기  */
+        BitmapFactory.Options bfo = new BitmapFactory.Options();
+        bfo.inSampleSize = 2;
+        imageView = findViewById(R.id.photos);
 
-    @Override
-    public int getItemCount() {
-        return items.size();
-    }
-
-    static class ViewHolder extends RecyclerView.ViewHolder{
-
-        public ViewHolder(View itemView, final OnPersonItemClickListener listener){
-            super(itemView);
-
-            itemView.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View view){
-                    int position = getAdapterPosition();
-                    if(listener != null){
-                        listener.onItemClick(ViewHolder.this, view, position);
-                    }
-                }
-            });
-        }
+        Bitmap bm = BitmapFactory.decodeFile(imgPath, bfo);
+        Bitmap resized = Bitmap.createScaledBitmap(bm, imgWidth, imgHeight, true);
+        imageView.setImageBitmap(resized);
 
     }
 
-    public void addItem(Person item){
-        items.add(item);
-    }
-
-    public void setItems(ArrayList<Person> items){
-        this.items = items;
-    }
-
-    public Person getItem(int position){
-        return items.get(position);
-    }
-
-    public void setItem(int position, Person item){
-        items.set(position, item);
-    }
-
-    public void setOnItemClickListener(OnPersonItemClickListener listener){
-        this.listener = listener;
-    }
-
-    @Override
-    public void onItemClick(ViewHolder holder, View view, int position){
-        if(listener != null){
-            listener.onItemClick(holder, view, position);
-        }
-    }
 }
