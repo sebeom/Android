@@ -21,16 +21,10 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity  {
-<<<<<<< Updated upstream
+
     Feel_List feel_list;
     Feel_write feel_write;
     public static final int REQUEST_CODE_MENU = 101;
-=======
-    // Feel_List feel_list;
-    Feel_write feel_write;
-    // public static final int REQUEST_CODE_MENU = 101;
-    // private int state = 1;
->>>>>>> Stashed changes
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
