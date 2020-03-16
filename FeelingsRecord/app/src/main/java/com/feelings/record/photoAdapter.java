@@ -29,7 +29,7 @@ public class photoAdapter extends Activity{
 
         /** 완성된 이미지 보여주기  */
         BitmapFactory.Options bfo = new BitmapFactory.Options();
-        bfo.inSampleSize = 2;
+        bfo.inSampleSize = 1;
         imageView = findViewById(R.id.photos);
 
         Bitmap bm = BitmapFactory.decodeFile(imgPath, bfo);

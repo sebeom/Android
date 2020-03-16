@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity  {
         });//Menubutton의 setOnClickListener끝
 
 
-        //리스트버튼 클릭시
+        //리스트버튼 클릭시(앨범으로 가기)
         Button listButton = findViewById(R.id.cardMode);
         listButton.setOnClickListener(new View.OnClickListener() {
             @Override

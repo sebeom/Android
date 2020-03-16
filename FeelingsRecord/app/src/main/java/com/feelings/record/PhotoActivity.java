@@ -1,8 +1,6 @@
 package com.feelings.record;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -14,32 +12,23 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
 
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toast;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class PhotoActivity extends AppCompatActivity {
-    ImageView imageView;
-    photoAdapter adapter;
     GridView gridView;
     private Context mContext;
-    private Uri imageUri;
+    private Uri uri;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,11 +38,11 @@ public class PhotoActivity extends AppCompatActivity {
 
         gridView = findViewById(R.id.gridView);
 
-        final ImageAdapter ia = new ImageAdapter(this);
-        gridView.setAdapter(ia);
+        final ImageAdapter view = new ImageAdapter(this);
+        gridView.setAdapter(view);
         gridView.setOnItemClickListener(new OnItemClickListener(){
             public void onItemClick(AdapterView<?> parent, View v, int position, long id){
-                ia.callImageViewer(position);
+                view.callImageViewer(position);
 
             }
         });
@@ -133,6 +122,7 @@ public class PhotoActivity extends AppCompatActivity {
 
         }
 
+        // 이미지 각도 조절 적용안됨
         public Bitmap getOrientationBitmap(Uri uri, Bitmap bitmap){
             try {
                 ExifInterface exif = new ExifInterface(uri.getPath());
@@ -172,47 +162,47 @@ public class PhotoActivity extends AppCompatActivity {
                     MediaStore.Images.Media.DISPLAY_NAME
             };
 
-            Cursor cs = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            Cursor cursor = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                     proj, "bucket_display_name='TEST'", null, null);
 
-            if (cs.moveToFirst()){
+            if (cursor.moveToFirst()){
                 String ID;
                 String ImageID;
                 String Data;
 
 
-                int IDCol = cs.getColumnIndex(MediaStore.Images.Media._ID);
-                int DataCol = cs.getColumnIndex(MediaStore.Images.Media.DATA);
-                int ImageIDCol = cs.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME);
+                int IDCol = cursor.getColumnIndex(MediaStore.Images.Media._ID);
+                int DataCol = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
+                int ImageIDCol = cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME);
                 int num = 0;
                 do {
-                    ID = cs.getString(IDCol);
-                    Data = cs.getString(DataCol);
-                    ImageID = cs.getString(ImageIDCol);
+                    ID = cursor.getString(IDCol);
+                    Data = cursor.getString(DataCol);
+                    ImageID = cursor.getString(ImageIDCol);
                     num++;
                     if (ImageID != null){
                         IDs.add(ID);
                         Datas.add(Data);
                     }
-                }while (cs.moveToNext());
+                }while (cursor.moveToNext());
             }
-            cs.close();
+            cursor.close();
             return;
         }
 
         private String getImageInfo(String thumbID){
             String imageDataPath = null;
             String[] proj = {MediaStore.Images.Media.DATA};
-            Cursor cs = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            Cursor cursor = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                     proj, "_ID='"+ thumbID +"'", null, null);
 
-            if (cs.moveToFirst()){
-                if (cs.getCount() > 0){
-                    int imgData = cs.getColumnIndex(MediaStore.Images.Media.DATA);
-                    imageDataPath = cs.getString(imgData);
+            if (cursor.moveToFirst()){
+                if (cursor.getCount() > 0){
+                    int imgData = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
+                    imageDataPath = cursor.getString(imgData);
                 }
             }
-            cs.close();
+            cursor.close();
             return imageDataPath;
         }
     }
