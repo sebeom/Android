@@ -5,22 +5,16 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-<<<<<<< Updated upstream
+
         <item name="colorAccent">@color/colorAccent</item>
-<<<<<<< HEAD
-=======
-=======
+
         <item name="colorAccent">#1B4B35</item>
->>>>>>> 72942e0797aa3a52d5bbd8ff3b649e8c563dce56
+
         <!--No Title Bar-->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
 
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
->>>>>>> 72942e0797aa3a52d5bbd8ff3b649e8c563dce56
     </style>
 
 </resources>

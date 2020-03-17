@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/menuLayout"
         android:layout_width="match_parent"
@@ -35,11 +34,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-=======
->>>>>>> 72942e0797aa3a52d5bbd8ff3b649e8c563dce56
-=======
 
->>>>>>> db
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,19 +42,13 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 72942e0797aa3a52d5bbd8ff3b649e8c563dce56
         <EditText
             android:id="@+id/datePicker"
             android:layout_width="150dp"
             android:layout_height="46dp"
             android:layout_gravity="center"
-<<<<<<< HEAD
-=======
             android:autoText="false"
->>>>>>> 72942e0797aa3a52d5bbd8ff3b649e8c563dce56
             android:ems="10"
             android:foregroundGravity="center"
             android:gravity="center"
@@ -71,10 +60,7 @@
             android:layout_width="110dp"
             android:layout_height="46dp"
             android:layout_gravity="center"
-<<<<<<< HEAD
-=======
             android:autoText="false"
->>>>>>> 72942e0797aa3a52d5bbd8ff3b649e8c563dce56
             android:ems="10"
             android:foregroundGravity="center"
             android:gravity="center"
@@ -146,7 +132,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
-<<<<<<< HEAD
+
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="328dp"
@@ -156,18 +142,13 @@
                 app:srcCompat="@drawable/imginput"
                 tools:ignore="VectorDrawableCompat" />
 
-=======
->>>>>>> 72942e0797aa3a52d5bbd8ff3b649e8c563dce56
+
 
             <EditText
                 android:id="@+id/content"
                 android:layout_width="328dp"
                 android:layout_height="50dp"
-<<<<<<< HEAD
                 android:layout_marginTop="20dp"
-=======
-                android:layout_marginTop="10dp"
->>>>>>> 72942e0797aa3a52d5bbd8ff3b649e8c563dce56
                 android:ems="10"
                 android:hint="왜 이런 기분이 들었나요?"
                 android:inputType="textPersonName"
@@ -180,8 +161,6 @@
                 android:textSize="18sp" />
 
 
-<<<<<<< HEAD
-=======
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="400dp"
@@ -190,7 +169,7 @@
                 android:scaleType="centerInside">
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/imageView2"
                     android:layout_width="328dp"
                     android:layout_height="wrap_content"
                     android:gravity="top"
@@ -199,15 +178,10 @@
                     tools:ignore="VectorDrawableCompat" />
             </LinearLayout>
 
->>>>>>> 72942e0797aa3a52d5bbd8ff3b649e8c563dce56
-
         </LinearLayout>
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 72942e0797aa3a52d5bbd8ff3b649e8c563dce56
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

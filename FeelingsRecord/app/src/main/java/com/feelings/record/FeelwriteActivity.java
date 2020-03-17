@@ -195,8 +195,7 @@ public class FeelwriteActivity extends AppCompatActivity {
                 imageView.setLayoutParams(params);*/
 
             }
-        });
-    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
