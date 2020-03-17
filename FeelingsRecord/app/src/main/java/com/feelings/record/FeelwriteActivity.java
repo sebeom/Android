@@ -90,7 +90,7 @@ public class FeelwriteActivity extends AppCompatActivity {
         SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월 dd일");
         Calendar Dtime = Calendar.getInstance();
         String format_time1 = format1.format(Dtime.getTime());
-        date.setText(format_time1); //get
+        date.setText(format_time1); //gettext 가져온다
 
         date.setOnClickListener(new View.OnClickListener() {
             @Override

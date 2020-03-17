@@ -40,6 +40,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
       //  holder.image.setImageResource(img);//비트맵(변수이름변경)
          // 기분에 받는값에 따라(switch)
         holder.image.setImageURI(Uri.parse(data.getImageview()));
+
         holder.title.setText(data.getContent());
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +61,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         TextView title;
         CardView cardview;
         ImageView moodImage;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
