@@ -2,7 +2,10 @@ package com.feelings.record;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -11,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,7 +32,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity  {
     // Feel_List feel_list;
-    // Feel_write feel_write;
+     Feel_write feel_write;
     // public static final int REQUEST_CODE_MENU = 101;
     // private int state = 1;
 
@@ -36,6 +40,7 @@ public class MainActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        verifyStoragePermissions(MainActivity.this);
 
         // feel_list = new Feel_List();
         // feel_write = new Feel_write();
@@ -77,8 +82,9 @@ public class MainActivity extends AppCompatActivity  {
         listButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), PhotoActivity.class);
+                startActivity(intent);
 
-                Toast.makeText(getApplicationContext(),"리스트선택",Toast.LENGTH_LONG).show();
             }//listButton onClick 메서드 끝
         });//listButton setOnClickListener끝
 
@@ -140,6 +146,26 @@ public class MainActivity extends AppCompatActivity  {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //앨범 보기위한 권한 추가
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+
+    public static void verifyStoragePermissions(Activity activity) {
+        int permission = ActivityCompat.checkSelfPermission(
+                activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
     }
 
 }//MainActivity 끝

@@ -13,6 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".FeelwriteActivity"></activity>
+        <activity android:name=".photoAdapter"
+            android:theme="@style/Theme.AppCompat.Dialog"/>
         <activity android:name=".PhotoActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

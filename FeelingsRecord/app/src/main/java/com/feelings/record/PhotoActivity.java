@@ -19,6 +19,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.widget.ImageView;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -34,6 +35,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class PhotoActivity extends AppCompatActivity {
+    ImageView imageView;
+    photoAdapter adapter;
     GridView gridView;
     private Context mContext;
     private Uri imageUri;
