@@ -2,6 +2,9 @@ package com.feelings.record;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -19,12 +22,17 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 public class FeelwriteActivity extends AppCompatActivity {
+    public MutableLiveData<Boolean> flag;
+    private DataRepository repository;
+
     //날짜 시간
     Calendar myCalendar = Calendar.getInstance();
     DatePickerDialog.OnDateSetListener myDatePicker = new DatePickerDialog.OnDateSetListener() {
@@ -46,6 +54,17 @@ public class FeelwriteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feelwrite);
         initUI();
+        repository = new DataRepository(getApplication());
+        flag = new MutableLiveData<Boolean>();
+
+        flag.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean){
+                    finish();
+                }
+            }
+        });
 
 
         //날짜선택
@@ -54,7 +73,7 @@ public class FeelwriteActivity extends AppCompatActivity {
         SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월 dd일");
         Calendar Dtime = Calendar.getInstance();
         String format_time1 = format1.format(Dtime.getTime());
-        date.setText(format_time1);
+        date.setText(format_time1); //get
 
         date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +88,7 @@ public class FeelwriteActivity extends AppCompatActivity {
         SimpleDateFormat format2 = new SimpleDateFormat ( "HH시 mm분");
         Calendar Ttime = Calendar.getInstance();
         String format_time2 = format2.format(Ttime.getTime());
-        et_time.setText(format_time2);
+        et_time.setText(format_time2); //gettext
 
         et_time.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,10 +129,10 @@ public class FeelwriteActivity extends AppCompatActivity {
 
         imageView.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {   //갤러리 사진 가져오기
                 Intent intent = new Intent();
                 intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
+                intent.setAction(Intent.ACTION_GET_CONTENT); //action 세팅 (content)
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
@@ -124,13 +143,18 @@ public class FeelwriteActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE)
         {
-            if(resultCode == RESULT_OK)
+            if(resultCode == RESULT_OK) // 액션의 결과값
             {
                 try{
                     InputStream in = getContentResolver().openInputStream(data.getData());
 
                     Bitmap img = BitmapFactory.decodeStream(in);
                     in.close();
+                    File file = new File("..\\drawable\\image\\");
+                    FileOutputStream fos = new FileOutputStream("test");
+                    img.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                    // 파일을 저장하는곳 (파일형태로 다운받아서 저장시키는 소스)
+                    // 파일이 저장되는 경로가 나중에 String imageview에 저장이 되야된다.
 
                     imageView.setImageBitmap(img);
                 }catch(Exception e)
@@ -150,26 +174,27 @@ public class FeelwriteActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText content = findViewById(R.id.content);
-                if(content.getText().toString().trim().length() == 0)
+                EditText inputcontent = findViewById(R.id.content);
+                if(inputcontent.getText().toString().trim().length() == 0)
                     return;
 
-                ImageView img = findViewById(R.id.imageView);
-                if(img.toString().trim().length() == 0)
+                ImageView inputimg = findViewById(R.id.imageView);
+                if(inputimg.toString().trim().length() == 0)
                     return;
 
-                try {
-                    String con = content.getText().toString().trim();
-                    String image = img.toString().trim();
+                try{
+                    String content = inputcontent.getText().toString().trim();
+                    String imageview = inputimg.toString().trim(); //
 
                     Data data = new Data();
-                    data.setContent(con);
-                    data.setImageview(image);
+                    data.setContent(content);
+                    data.setImageview(imageview); //나머지 데이터들 넣기
 
-                    DataViewModel.insert(data);
+                    repository.insert(data, flag);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
+
             }
         });
     }
@@ -183,5 +208,4 @@ public class FeelwriteActivity extends AppCompatActivity {
 
         String myFormat2 = "HH시 mm분";
     }
-
 }

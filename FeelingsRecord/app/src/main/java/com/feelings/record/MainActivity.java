@@ -3,59 +3,68 @@ package com.feelings.record;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Html;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity  {
-    Feel_List feel_list;
-    Feel_write feel_write;
-    public static final int REQUEST_CODE_MENU = 101;
-    private int state = 1;
-
+    private DataRepository repository;
+    private LiveData<List<Data>> allDatas;
+    RecyclerView recyclerView;
+    RecyclerAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecyclerView recyclerView=(RecyclerView)findViewById(R.id.recyclerView);
+        repository = new DataRepository(getApplication());
+        allDatas = repository.getAllDatas();
+         recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
-        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
 
-        List<Data> items=new ArrayList<>();
-        Data[] datas=new Data[5];
-        datas[0]=new Data("imagePath1","contents1");
-        datas[1]=new Data("imagePath2","contents2");
-        datas[2]=new Data("imagePath3","contents3");
-        datas[3]=new Data("imagePath4","contents4");
-        datas[4]=new Data("imagePath5","contents5");
 
-        for(int i=0;i<5;i++) items.add(datas[i]);
 
-        RecyclerAdapter adapter = new RecyclerAdapter(getApplicationContext(),items,R.layout.activity_main);
-        recyclerView.setAdapter(adapter);
+        allDatas.observe(this, new Observer<List<Data>>() { // 구독
+            @Override
+            public void onChanged(List<Data> data) {
 
-        feel_write = new Feel_write();
+                if (adapter == null) {
+                    adapter = new RecyclerAdapter(getApplicationContext(), data, 2); // 객체만들기
+                    recyclerView.setAdapter(adapter); //세팅을 해준다.
+                } else {
+                    adapter.dataArrayList = data;
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
 
 //메뉴버튼클릭시
         Button Menubutton= findViewById(R.id.menu);
