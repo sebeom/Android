@@ -1,6 +1,7 @@
 package com.feelings.record;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -8,15 +9,22 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -28,10 +36,18 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.UUID;
 
 public class FeelwriteActivity extends AppCompatActivity {
     public MutableLiveData<Boolean> flag;
     private DataRepository repository;
+    private String saveFileUri;
+
+    public static final int VERY_HAPPY=5;
+    public static final int HAPPY=4;
+    public static final int NORMAL=3;
+    public static final int BAD=2;
+    public static final int HORRIBLE=1;
 
     //날짜 시간
     Calendar myCalendar = Calendar.getInstance();
@@ -48,6 +64,7 @@ public class FeelwriteActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 0;
     private ImageView imageView;
+    private RadioGroup radioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,17 +163,13 @@ public class FeelwriteActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK) // 액션의 결과값
             {
                 try{
-                    InputStream in = getContentResolver().openInputStream(data.getData());
+                    DisplayMetrics met = new DisplayMetrics();
+                    WindowManager manager = (WindowManager)getApplicationContext().getSystemService((Context.WINDOW_SERVICE));
+                    manager.getDefaultDisplay().getMetrics(met);
 
-                    Bitmap img = BitmapFactory.decodeStream(in);
-                    in.close();
-                    File file = new File("..\\drawable\\image\\");
-                    FileOutputStream fos = new FileOutputStream("test");
-                    img.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                    // 파일을 저장하는곳 (파일형태로 다운받아서 저장시키는 소스)
-                    // 파일이 저장되는 경로가 나중에 String imageview에 저장이 되야된다.
-
-                    imageView.setImageBitmap(img);
+                    imageView.setImageURI(data.getData());
+                    ViewGroup.LayoutParams params = (ViewGroup.LayoutParams)imageView.getLayoutParams();
+                    params.height = met.heightPixels/2;
                 }catch(Exception e)
                 {
 
@@ -170,25 +183,33 @@ public class FeelwriteActivity extends AppCompatActivity {
     }
 
     private void initUI() {
+        radioGroup = findViewById(R.id.radioGroup);
+        imageView = findViewById(R.id.imageView);
+
         FloatingActionButton saveButton = findViewById(R.id.saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int typeId = radioGroup.getCheckedRadioButtonId();
                 EditText inputcontent = findViewById(R.id.content);
-                if(inputcontent.getText().toString().trim().length() == 0)
-                    return;
-
-                ImageView inputimg = findViewById(R.id.imageView);
-                if(inputimg.toString().trim().length() == 0)
-                    return;
-
+                if(inputcontent.getText().toString().trim().length() == 0) return;
+                if(imageView.toString().trim().length() == 0) return;
+                if(typeId == -1) return;
                 try{
                     String content = inputcontent.getText().toString().trim();
-                    String imageview = inputimg.toString().trim(); //
+
+                    BitmapDrawable bitDraw = (BitmapDrawable)imageView.getDrawable();
+                    Bitmap bitmap = bitDraw.getBitmap();
+
+                    String fileName = UUID.randomUUID().toString();
+                    File file = new File(getCacheDir(),fileName+".jpg");
+                    FileOutputStream fos = new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
 
                     Data data = new Data();
-                    data.setContent(content);
-                    data.setImageview(imageview); //나머지 데이터들 넣기
+                    data.setContent(content); //나머지 데이터들 넣기
+                    data.setImageview(file.getPath());
+                    data.setMood(getMoodType(typeId));
 
                     repository.insert(data, flag);
                 }catch (Exception e){
@@ -207,5 +228,26 @@ public class FeelwriteActivity extends AppCompatActivity {
         et_date.setText(sdf.format(myCalendar.getTime()));
 
         String myFormat2 = "HH시 mm분";
+    }
+    private int getMoodType(int id){
+        int type=0;
+        switch (id){
+            case R.id.feelingBtn1:
+                type = VERY_HAPPY;
+                break;
+            case R.id.feelingBtn2:
+                type = HAPPY;
+                break;
+            case R.id.feelingBtn3:
+                type = NORMAL;
+                break;
+            case R.id.feelingBtn4:
+                type = BAD;
+                break;
+            case R.id.feelingBtn5:
+                type = HORRIBLE;
+                break;
+        }
+        return type;
     }
 }

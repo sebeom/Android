@@ -3,6 +3,7 @@ package com.feelings.record;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +39,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         String img = data.getImageview(); //경로에있던 이미지를 불러온다.
       //  holder.image.setImageResource(img);//비트맵(변수이름변경)
          // 기분에 받는값에 따라(switch)
-        holder.image.setText(data.getImageview());
+        holder.image.setImageURI(Uri.parse(data.getImageview()));
         holder.title.setText(data.getContent());
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,6 +47,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 Toast.makeText(content,data.getContent(),Toast.LENGTH_SHORT).show();
             }
         });
+        holder.moodImage.setImageDrawable(drawableMoodImage(data.getMood()));
     }
 
     @Override
@@ -54,15 +56,39 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView image;
+        ImageView image;
         TextView title;
         CardView cardview;
+        ImageView moodImage;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            image=(TextView)itemView.findViewById(R.id.image);
+            image=(ImageView)itemView.findViewById(R.id.image);
             title=(TextView)itemView.findViewById(R.id.content);
             cardview=(CardView)itemView.findViewById(R.id.cardview);
+            moodImage=itemView.findViewById(R.id.imageView2);
         }
+    }
+    private Drawable drawableMoodImage(int type){
+        int imageId=R.drawable.feel1;
+        switch (type){
+            case FeelwriteActivity.VERY_HAPPY:
+                imageId = R.drawable.feel1;
+                break;
+            case FeelwriteActivity.HAPPY:
+                imageId = R.drawable.feel2;
+                break;
+            case FeelwriteActivity.NORMAL:
+                imageId = R.drawable.feel3;
+                break;
+            case FeelwriteActivity.BAD:
+                imageId = R.drawable.feel4;
+                break;
+            case FeelwriteActivity.HORRIBLE:
+                imageId = R.drawable.feel5;
+                break;
+        }
+        Drawable d = content.getResources().getDrawable(imageId);
+        return d;
     }
 }
