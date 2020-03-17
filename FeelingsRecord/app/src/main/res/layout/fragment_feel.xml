@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="70dp">
 
-        <com.feelings.cal.view.FeelDisplayView
+        <com.feelings.record.calchart.
             android:id="@+id/chart_very_happy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
