@@ -127,6 +127,8 @@ public class MainActivity extends AppCompatActivity  {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.w :
+                        Intent intent1 = new Intent(getApplicationContext(),MainActivity.class);
+                        startActivity(intent1);
                         Toast.makeText(getApplicationContext(),
                                 "팝업메뉴 이벤트 처리 - "
                                         + item.getTitle(),
