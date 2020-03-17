@@ -31,24 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity  {
-<<<<<<< HEAD
-    // Feel_List feel_list;
-    // Feel_write feel_write;
-    // public static final int REQUEST_CODE_MENU = 101;
-    // private int state = 1;
-=======
-<<<<<<< Updated upstream
-    Feel_List feel_list;
-    Feel_write feel_write;
-    public static final int REQUEST_CODE_MENU = 101;
-=======
-    // Feel_List feel_list;
-    Feel_write feel_write;
-    // public static final int REQUEST_CODE_MENU = 101;
-    // private int state = 1;
->>>>>>> Stashed changes
->>>>>>> 72942e0797aa3a52d5bbd8ff3b649e8c563dce56
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

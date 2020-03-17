@@ -103,6 +103,7 @@
             android:orientation="vertical">
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="328dp"
@@ -119,6 +120,9 @@
 
 >>>>>>> Stashed changes
 >>>>>>> 72942e0797aa3a52d5bbd8ff3b649e8c563dce56
+=======
+
+>>>>>>> origin/jisu
             <EditText
                 android:id="@+id/inputText"
                 android:layout_width="328dp"
@@ -136,6 +140,7 @@
                 android:textSize="18sp" />
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 <<<<<<< Updated upstream
@@ -148,6 +153,8 @@
                 app:srcCompat="@drawable/imginput"
                 tools:ignore="VectorDrawableCompat" />
 =======
+=======
+>>>>>>> origin/jisu
 
             <LinearLayout
                 android:layout_width="328dp"
@@ -166,8 +173,11 @@
                     tools:ignore="VectorDrawableCompat" />
             </LinearLayout>
 
+<<<<<<< HEAD
 >>>>>>> Stashed changes
 >>>>>>> 72942e0797aa3a52d5bbd8ff3b649e8c563dce56
+=======
+>>>>>>> origin/jisu
 
         </LinearLayout>
 
