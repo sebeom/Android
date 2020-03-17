@@ -39,6 +39,7 @@ public class BackupActivity extends AppCompatActivity {
             }
         });
 
+
         // 사용자 ID, 이메일 주소 및 기본을 요청하도록 로그인 구성
         // 프로필. ID 및 기본 프로필은 DEFAULT_SIGN_IN에 포함되어 있습니다.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -87,7 +88,18 @@ public class BackupActivity extends AppCompatActivity {
 
 
 
-    private void updateUI(GoogleSignInAccount account) {
-    }
 
+
+    private void updateUI(GoogleSignInAccount account) {
+        Button googleBackupButton = findViewById(R.id.googleBackupButton);
+        googleBackupButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(getApplicationContext(), MyPrefsBackupAgent.class);
+                startActivity(intent);
+            }
+        });
+    }
 }
+
+
