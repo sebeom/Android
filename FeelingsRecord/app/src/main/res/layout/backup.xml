@@ -7,6 +7,7 @@
     android:background="#FFFFFF"
     android:orientation="vertical">
 
+<<<<<<< HEAD
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
@@ -18,6 +19,29 @@
 
     <Button
         android:id="@+id/googleBackupButton"
+=======
+
+    <Button
+        android:id="@+id/button2"
+>>>>>>> 9efcd82212ac102d4b7e722b324bb194eaeb830e
+        android:layout_width="309dp"
+        android:layout_height="36dp"
+        android:background="#A16AC34A"
+        android:onClick="test"
+        android:text="구글 드라이브 백업하기"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.343" />
+
+    <Button
+<<<<<<< HEAD
+        android:id="@+id/emailBackupButton"
+=======
+        android:id="@+id/button"
+>>>>>>> 9efcd82212ac102d4b7e722b324bb194eaeb830e
         android:layout_width="309dp"
         android:layout_height="36dp"
         android:background="#A16AC34A"
@@ -28,21 +52,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.225" />
-
-    <Button
-        android:id="@+id/emailBackupButton"
-        android:layout_width="309dp"
-        android:layout_height="36dp"
-        android:background="#A16AC34A"
-        android:onClick="emailBackup"
-        android:text="이메일 백업하기"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.31" />
+        app:layout_constraintVertical_bias="0.271" />
 
     <Button
         android:id="@+id/reDataButton"
