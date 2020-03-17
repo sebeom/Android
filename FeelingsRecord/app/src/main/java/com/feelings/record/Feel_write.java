@@ -134,7 +134,6 @@ public class Feel_write extends Fragment {
 
         //사진추가
         imageView = (ImageView)rootView.findViewById(R.id.imageView);
-
         imageView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -142,9 +141,53 @@ public class Feel_write extends Fragment {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(intent, REQUEST_CODE);
+
+                /*//리사이즈
+                DisplayMetrics metrics = new DisplayMetrics();
+                WindowManager windowManager = (WindowManager) getApplicationContext()
+                        .getSystemService(Context.WINDOW_SERVICE);
+                windowManager.getDefaultDisplay().getMetrics(metrics);
+
+
+                ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) imageView.getLayoutParams();
+                params.width = metrics.widthPixels;
+                params.height = metrics.heightPixels;
+
+                imageView.setLayoutParams(params);*/
+            }
+        });
+<<<<<<< Updated upstream:FeelingsRecord/app/src/main/java/com/feelings/record/feel_write.java
+
+<<<<<<< HEAD:FeelingsRecord/app/src/main/java/com/feelings/record/Feel_write.java
+=======
+/*        imageView = getView().findViewById(R.id.imageView);
+        imageView.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View view){
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivity(intent);
             }
         });
 
+*/
+/*
+        imageView = getView().findViewById(R.id.imageView);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override //갤러리 접근
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType
+                        (android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+                getActivity().startActivityForResult(intent, REQUEST_CODE);
+            }
+        });
+*/
+
+
+=======
+>>>>>>> Stashed changes:FeelingsRecord/app/src/main/java/com/feelings/record/Feel_write.java
+>>>>>>> 72942e0797aa3a52d5bbd8ff3b649e8c563dce56:FeelingsRecord/app/src/main/java/com/feelings/record/feel_write.java
         return rootView;
     }
 
@@ -162,22 +205,14 @@ public class Feel_write extends Fragment {
                     in.close();
 
                     imageView.setImageBitmap(img);
-                }catch(Exception e)
-                {
-
-                }
+                }catch(Exception e){}
             }
             else if(resultCode == RESULT_CANCELED)
             {
-                Toast.makeText(getActivity(), "사진 선택 취소", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "취소", Toast.LENGTH_LONG).show();
             }
         }
     }
-
-
-
-
-
 
 
     private void initUI(ViewGroup rootView) {

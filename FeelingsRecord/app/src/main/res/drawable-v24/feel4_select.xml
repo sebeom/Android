@@ -3,7 +3,7 @@
     <item
         android:state_pressed="false"
         android:drawable="@drawable/feel4" />
-<!--    <item
+    <item
         android:state_pressed="true"
         android:drawable="@drawable/feelselected4" />
     <item
@@ -14,5 +14,5 @@
         android:drawable="@drawable/feelselected4" />
     <item
         android:state_focused="true"
-        android:drawable="@drawable/feelselected4" />-->
+        android:drawable="@drawable/feelselected4" />
 </selector>

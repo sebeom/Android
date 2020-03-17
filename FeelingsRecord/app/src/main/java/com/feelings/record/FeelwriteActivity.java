@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +19,15 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -44,6 +54,10 @@ public class FeelwriteActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 0;
     private ImageView imageView;
+    private TextView textView_Date;
+    private TimePickerDialog.OnTimeSetListener callbackMethod;
+    private EditText editText;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +77,14 @@ public class FeelwriteActivity extends AppCompatActivity {
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(getApplicationContext(), myDatePicker, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                new DatePickerDialog(FeelwriteActivity.this, myDatePicker, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+
+
+
+
+
 
         //시간선택
         final EditText et_time = (EditText) findViewById(R.id.timePicker);
@@ -88,7 +107,7 @@ public class FeelwriteActivity extends AppCompatActivity {
                 String format_time1 = format1.format(time.getTime());
                 et_time.setText(format_time1);
 
-                mTimePicker = new TimePickerDialog(getApplicationContext(), new TimePickerDialog.OnTimeSetListener() {
+                mTimePicker = new TimePickerDialog(FeelwriteActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         String state = "AM";
@@ -98,7 +117,7 @@ public class FeelwriteActivity extends AppCompatActivity {
                             state = "PM";
                         }
                         // EditText에 출력할 형식 지정
-                        et_time.setText(state + " " + selectedHour + "시 " + selectedMinute + "분");
+                        et_time.setText(/*state + " " + */selectedHour + "시 " + selectedMinute + "분");
 
                         // SimpleDateFormat format1 = new SimpleDateFormat ( state +"HH시 mm분");
                     }
@@ -109,7 +128,13 @@ public class FeelwriteActivity extends AppCompatActivity {
         });
 
 
-        //사진추가
+
+
+
+
+
+
+    //사진추가
         imageView = (ImageView)findViewById(R.id.imageView);
 
         imageView.setOnClickListener(new View.OnClickListener(){
@@ -136,6 +161,22 @@ public class FeelwriteActivity extends AppCompatActivity {
         });//Menubutton의 setOnClickListener끝
 
 
+
+                /*//리사이즈
+                DisplayMetrics metrics = new DisplayMetrics();
+                WindowManager windowManager = (WindowManager) getApplicationContext()
+                        .getSystemService(Context.WINDOW_SERVICE);
+                windowManager.getDefaultDisplay().getMetrics(metrics);
+
+
+                ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) imageView.getLayoutParams();
+                params.width = metrics.widthPixels;
+                params.height = metrics.heightPixels;
+
+                imageView.setLayoutParams(params);*/
+
+            }
+        });
     }
 
     @Override
