@@ -32,7 +32,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity  {
     // Feel_List feel_list;
-     Feel_write feel_write;
+    // Feel_write feel_write;
     // public static final int REQUEST_CODE_MENU = 101;
     // private int state = 1;
 
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity  {
         RecyclerAdapter adapter = new RecyclerAdapter(getApplicationContext(),items,R.layout.activity_main);
         recyclerView.setAdapter(adapter);
 
-    //    feel_write = new Feel_write();
+        // feel_write = new Feel_write();
 
 //메뉴버튼클릭시
         Button Menubutton= findViewById(R.id.menu);
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity  {
         });//Menubutton의 setOnClickListener끝
 
 
-        //리스트버튼 클릭시
+        //리스트버튼 클릭시(앨범으로 가기)
         Button listButton = findViewById(R.id.cardMode);
         listButton.setOnClickListener(new View.OnClickListener() {
             @Override
