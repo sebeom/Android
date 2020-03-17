@@ -31,6 +31,9 @@ allprojects {
     }
 }
 
+apply plugin: 'com.android.application'
+
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -55,4 +58,12 @@ dependencies {
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation 'com.google.android.material:material:1.0.0'
+
+    /*백업관련 google service*/
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+
+    /*//백업관련 Firebase
+    implementation 'com.google.firebase:firebase-auth:11.6.2'
+    implementation 'com.google.firebase:firebase-core:11.6.2'*/
+
 }

@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -110,34 +111,25 @@ public class MainActivity extends AppCompatActivity  {
         p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-
-                switch (item.getItemId()){
-                    //리스트보기 버튼
-                    case R.id.w:
-
-                        Toast.makeText(MainActivity.this, "리스트보기", Toast.LENGTH_SHORT).show();
+                switch (item.getItemId()) {
+                    case R.id.w :
+                        Toast.makeText(getApplicationContext(),
+                                "팝업메뉴 이벤트 처리 - "
+                                        + item.getTitle(),
+                                Toast.LENGTH_SHORT).show();
                         break;
-                    //이달의기분 버튼
-                    case R.id.d:
-                        Toast.makeText(MainActivity.this, "이달의 기분", Toast.LENGTH_SHORT).show();
-
+                    case R.id.d :
+                        Toast.makeText(getApplicationContext(),
+                                "팝업메뉴 이벤트 처리 -"
+                                        + item.getTitle(),
+                                Toast.LENGTH_SHORT).show();
                         break;
-
-                        //설정버튼
-                    case R.id.c:
-                        Toast.makeText(MainActivity.this, "설정버튼", Toast.LENGTH_SHORT).show();
-
+                    case R.id.c :
+                        Intent intent = new Intent(getApplicationContext(), BackupActivity.class);
+                        startActivity(intent);
                         break;
-
-
                 }
-
-
-                Toast.makeText(getApplicationContext(),
-                        "팝업메뉴 이벤트 처리 - "
-                                + item.getTitle(),
-                        Toast.LENGTH_SHORT).show();
-                return false;
+                return true;
             }
         });
         p.show(); // 메뉴를 띄우기

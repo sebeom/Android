@@ -7,8 +7,17 @@
     android:background="#FFFFFF"
     android:orientation="vertical">
 
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
-        android:id="@+id/button"
+        android:id="@+id/googleBackupButton"
         android:layout_width="309dp"
         android:layout_height="36dp"
         android:background="#A16AC34A"
@@ -22,7 +31,7 @@
         app:layout_constraintVertical_bias="0.225" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/emailBackupButton"
         android:layout_width="309dp"
         android:layout_height="36dp"
         android:background="#A16AC34A"
@@ -36,7 +45,7 @@
         app:layout_constraintVertical_bias="0.31" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/reDataButton"
         android:layout_width="309dp"
         android:layout_height="36dp"
         android:background="#A16AC34A"
