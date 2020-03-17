@@ -1,4 +1,4 @@
-package com.feelings.record;
+package com.feelings.record.calchart;
 
 
 import android.os.AsyncTask;
@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.feelings.cal.data.CalendarData;
 import com.feelings.cal.decorator.EventDecorator;
 import com.feelings.cal.view.FeelDisplayView;
+import com.feelings.record.R;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -38,7 +39,7 @@ public class FeelFragment extends Fragment implements CalendarDataListener{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_feel,container,false);
+        View v = inflater.inflate(R.layout.fragment_feel,container,false);
 
         setLayout(v);
         return v;

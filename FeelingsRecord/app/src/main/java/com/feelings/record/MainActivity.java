@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity  {
         RecyclerAdapter adapter = new RecyclerAdapter(getApplicationContext(),items,R.layout.activity_main);
         recyclerView.setAdapter(adapter);
 
-        // feel_write = new Feel_write();
+        //feel_write = new Feel_write();
 
 //메뉴버튼클릭시
         Button Menubutton= findViewById(R.id.menu);

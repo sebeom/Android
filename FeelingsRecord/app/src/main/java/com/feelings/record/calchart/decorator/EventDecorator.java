@@ -1,4 +1,4 @@
-package com.feelings.record.decorator;
+package com.feelings.record.calchart.decorator;
 
 import android.graphics.Color;
 

@@ -1,4 +1,4 @@
-package com.feelings.record;
+package com.feelings.record.calchart;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,7 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.feelings.cal.data.PieValueFormatter;
+import com.feelings.record.calchart.data.PieValueFormatter;
+import com.feelings.record.R;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
@@ -27,7 +28,7 @@ public class PieFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_pie,container,false);
+        View v = inflater.inflate(R.layout.fragment_pie,container,false);
 
         pieChart = v.findViewById(R.id.piechart);
 
