@@ -2,5 +2,7 @@
     <item android:state_checked= "false"
         android:drawable = "@drawable/feel4"></item>
     <item android:state_checked= "true"
-        android:drawable = "@drawable/feelselected2"></item>
+
+        android:drawable = "@drawable/feelselected4"></item>
+
 </selector>

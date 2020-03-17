@@ -6,6 +6,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import java.util.List;
+
 @Dao
 public interface DataDao {
     @Insert
@@ -20,6 +22,6 @@ public interface DataDao {
     /*@Query("DELETE FROM data WHERE id = :id")
     int deleteData(int id);*/
 
-//    @Query("SELECT * from data ORDER BY id ASC")
-//    LiveData<>
+    @Query("SELECT * from data ORDER BY id ASC")
+    LiveData<List<Data>> getAllDatas();
 }

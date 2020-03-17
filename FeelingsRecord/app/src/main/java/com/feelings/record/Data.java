@@ -1,5 +1,7 @@
 package com.feelings.record;
 
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -22,11 +24,7 @@ public class Data {
     @ColumnInfo
     private int mood;
 
-    Data(String imageview, String content){
-        this.imageview = imageview;
-        this.content = content;
 
-    }
     public int getId() { return id; }
 
     public void setId(int id) {
