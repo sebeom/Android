@@ -9,11 +9,15 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -117,6 +121,21 @@ public class FeelwriteActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
+
+
+
+        //메뉴버튼클릭시
+        Button Menubutton= findViewById(R.id.menu);
+        Menubutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                popupmenu(v);//메뉴바를 누르면 숨겨진 옵션메뉴가 뜨게하기
+
+            }//Menubutton의 onClick 메서드 끝
+        });//Menubutton의 setOnClickListener끝
+
+
     }
 
     @Override
@@ -163,5 +182,51 @@ public class FeelwriteActivity extends AppCompatActivity {
         et_date.setText(sdf.format(myCalendar.getTime()));
 
         String myFormat2 = "HH시 mm분";
+    }
+
+
+    //숨겨진옵션메뉴
+    private void popupmenu(View v){
+
+
+        PopupMenu p = new PopupMenu(
+                getApplicationContext(), // 현재 화면의 제어권자
+                v); // anchor : 팝업을 띄울 기준될 위젯
+        getMenuInflater().inflate(R.menu.popupmenu, p.getMenu());
+        // 이벤트 처리
+        p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Toast.makeText(getApplicationContext(),
+                        "팝업메뉴 이벤트 처리 - "
+                                + item.getTitle(),
+                        Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+        p.show(); // 메뉴를 띄우기
+    }
+
+//숨겨진버튼
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.popupmenu, menu);
+        return true;
+    }
+    public void dd(View v) {
+        Toast.makeText(getApplicationContext(), "dd", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == 1) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
