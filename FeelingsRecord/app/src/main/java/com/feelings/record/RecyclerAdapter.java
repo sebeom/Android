@@ -38,7 +38,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         String img = data.getImageview(); //경로에있던 이미지를 불러온다.
       //  holder.image.setImageResource(img);//비트맵(변수이름변경)
          // 기분에 받는값에 따라(switch)
-        holder.image.setText(data.getImageview());
+        holder.image.setText(img);
         holder.title.setText(data.getContent());
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +57,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         TextView image;
         TextView title;
         CardView cardview;
+
 
         public ViewHolder(View itemView) {
             super(itemView);

@@ -1,5 +1,7 @@
 package com.feelings.record;
 
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
