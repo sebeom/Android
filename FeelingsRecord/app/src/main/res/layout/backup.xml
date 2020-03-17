@@ -7,6 +7,21 @@
     android:background="#FFFFFF"
     android:orientation="vertical">
 
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="309dp"
+        android:layout_height="36dp"
+        android:background="#A16AC34A"
+        android:onClick="test"
+        android:text="구글 드라이브 백업하기"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.343" />
+
     <Button
         android:id="@+id/button"
         android:layout_width="309dp"
@@ -19,21 +34,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.225" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="309dp"
-        android:layout_height="36dp"
-        android:background="#A16AC34A"
-        android:onClick="emailBackup"
-        android:text="이메일 백업하기"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.31" />
+        app:layout_constraintVertical_bias="0.271" />
 
     <Button
         android:id="@+id/button3"
