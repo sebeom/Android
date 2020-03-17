@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -34,11 +34,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -123,9 +130,6 @@
 
     </LinearLayout>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -151,7 +155,7 @@
                 android:layout_marginTop="20dp"
                 android:ems="10"
                 android:hint="왜 이런 기분이 들었나요?"
-                android:inputType="textPersonName"
+                android:inputType="text"
                 android:lineSpacingExtra="5sp"
                 android:singleLine="true"
                 android:textColor="#94000000"
@@ -182,6 +186,9 @@
 
 
 
+        </LinearLayout>
+    </LinearLayout>
+    </ScrollView>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -206,5 +213,5 @@
                 app:fabSize="auto"
                 app:rippleColor="#ABFFFFFF" />
         </LinearLayout>
-    </FrameLayout>
-</LinearLayout>
+
+</FrameLayout>
