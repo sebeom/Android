@@ -17,13 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
-    Context context;
-    List<Data> items;
-    int item_layout;
-    public RecyclerAdapter(Context context, List<Data> items, int item_layout) {
-        this.context=context;
-        this.items=items;
-        this.item_layout=item_layout;
+    Context content;
+    List<Data> dataArrayList;
+    int img;
+    public RecyclerAdapter(Context context, List<Data> data, int img) {
+        this.content=context;
+        this.dataArrayList=data;
+        this.img=img;
     }
 
     @Override
@@ -34,21 +34,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final Data item=items.get(position);
-        String imgpath = item.getImageview();
-        holder.image.setText(imgpath);
-        holder.title.setText(item.getContent());
+        final Data data=dataArrayList.get(position);
+        String img = data.getImageview(); //경로에있던 이미지를 불러온다.
+      //  holder.image.setImageResource(img);//비트맵(변수이름변경)
+         // 기분에 받는값에 따라(switch)
+        holder.image.setText(img);
+        holder.title.setText(data.getContent());
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,item.getContent(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(content,data.getContent(),Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return this.items.size();
+        return this.dataArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -56,10 +58,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         TextView title;
         CardView cardview;
 
+
         public ViewHolder(View itemView) {
             super(itemView);
             image=(TextView)itemView.findViewById(R.id.image);
-            title=(TextView)itemView.findViewById(R.id.title);
+            title=(TextView)itemView.findViewById(R.id.content);
             cardview=(CardView)itemView.findViewById(R.id.cardview);
         }
     }

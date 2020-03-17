@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/menuLayout"
         android:layout_width="match_parent"
@@ -36,6 +37,9 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 =======
 >>>>>>> 72942e0797aa3a52d5bbd8ff3b649e8c563dce56
+=======
+
+>>>>>>> db
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -156,7 +160,7 @@
 >>>>>>> 72942e0797aa3a52d5bbd8ff3b649e8c563dce56
 
             <EditText
-                android:id="@+id/inputText"
+                android:id="@+id/content"
                 android:layout_width="328dp"
                 android:layout_height="50dp"
 <<<<<<< HEAD
