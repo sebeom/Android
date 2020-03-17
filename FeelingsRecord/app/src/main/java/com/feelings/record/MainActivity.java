@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -115,11 +116,25 @@ public class MainActivity extends AppCompatActivity  {
         p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(getApplicationContext(),
-                        "팝업메뉴 이벤트 처리 - "
-                                + item.getTitle(),
-                        Toast.LENGTH_SHORT).show();
-                return false;
+                switch (item.getItemId()) {
+                    case R.id.w :
+                        Toast.makeText(getApplicationContext(),
+                                "팝업메뉴 이벤트 처리 - "
+                                        + item.getTitle(),
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.d :
+                        Toast.makeText(getApplicationContext(),
+                                "팝업메뉴 이벤트 처리 -"
+                                        + item.getTitle(),
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.c :
+                        Intent intent = new Intent(getApplicationContext(), BackupActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+                return true;
             }
         });
         p.show(); // 메뉴를 띄우기
