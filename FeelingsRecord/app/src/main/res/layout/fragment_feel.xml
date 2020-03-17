@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        app:mcv_showOtherDates="defaults"
+        app:mcv_selectionColor="#ffffff"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#efefef"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+
+        <com.feelings.cal.view.FeelDisplayView
+            android:id="@+id/chart_very_happy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chartColor="@color/colorVeryHappy"
+            app:chartTitle="정말좋음"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/chart_happy"/>
+
+        <com.feelings.cal.view.FeelDisplayView
+            android:id="@+id/chart_happy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chartColor="@color/colorHappy"
+            app:chartTitle="좋음"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/chart_very_happy"
+            app:layout_constraintRight_toLeftOf="@+id/chart_normal"/>
+
+        <com.feelings.cal.view.FeelDisplayView
+            android:id="@+id/chart_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chartColor="@color/colorNormal"
+            app:chartTitle="보통"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <com.feelings.cal.view.FeelDisplayView
+            android:id="@+id/chart_bad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chartColor="@color/colorBad"
+            app:chartTitle="나쁨"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/chart_normal"
+            app:layout_constraintRight_toLeftOf="@id/chart_horrible"/>
+
+        <com.feelings.cal.view.FeelDisplayView
+            android:id="@+id/chart_horrible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chartColor="@color/colorHorrible"
+            app:chartTitle="끔찍함"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/chart_bad"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
