@@ -1,4 +1,4 @@
-package com.feelings.record;
+package com.feelings.record.calchart;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,10 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.feelings.cal.data.CalendarData;
-import com.feelings.cal.data.GraphXAxisValueFormatter;
-import com.feelings.cal.data.GraphYAxisValueFormatter;
-import com.feelings.cal.data.LineValueFormatter;
+import com.feelings.record.R;
+import com.feelings.record.calchart.data.CalendarData;
+import com.feelings.record.calchart.data.GraphXAxisValueFormatter;
+import com.feelings.record.calchart.data.GraphYAxisValueFormatter;
+import com.feelings.record.calchart.data.LineValueFormatter;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -30,7 +31,7 @@ public class LineFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_line,container,false);
+        View v = inflater.inflate(R.layout.fragment_line,container,false);
         setLayout(v);
         return v;
     }

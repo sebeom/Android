@@ -1,6 +1,6 @@
-package com.feelings.record;
+package com.feelings.record.calchart;
 
-import com.feelings.cal.data.CalendarData;
+import com.feelings.record.calchart.data.CalendarData;
 
 import java.util.List;
 

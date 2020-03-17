@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FeelwriteActivity"></activity>
+        <activity android:name=".calchart.CalendarChartActivity"></activity>
+        <activity android:name=".FeelwriteActivity" />
         <activity android:name=".PhotoActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

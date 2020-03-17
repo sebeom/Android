@@ -1,11 +1,12 @@
-package com.feelings.record;
+package com.feelings.record.calchart;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 
-import com.feelings.record.data.CalendarData;
+import com.feelings.record.R;
+import com.feelings.record.calchart.data.CalendarData;
 
 import java.util.List;
 
