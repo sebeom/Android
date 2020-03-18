@@ -11,10 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.feelings.cal.data.CalendarData;
-import com.feelings.cal.decorator.EventDecorator;
-import com.feelings.cal.view.FeelDisplayView;
+import com.feelings.record.calchart.data.CalendarData;
+import com.feelings.record.calchart.decorator.EventDecorator;
 import com.feelings.record.R;
+import com.feelings.record.calchart.view.FeelDisplayView;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -29,7 +29,7 @@ import java.util.concurrent.Executors;
 
 public class FeelFragment extends Fragment implements CalendarDataListener{
 
-    private HashMap<Integer,FeelDisplayView> feelViews;
+    private HashMap<Integer, FeelDisplayView> feelViews;
     private ArrayList<CalendarData> dataArr;
 
     private CalendarDataListener listener;

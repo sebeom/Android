@@ -75,113 +75,79 @@ public class MainActivity extends AppCompatActivity {
     private Button button;
     private Button button2;
 
-        private DataRepository repository;
-        private LiveData<List<Data>> allDatas;
-        RecyclerView recyclerView;
-        RecyclerAdapter adapter;
+    private DataRepository repository;
+    private LiveData<List<Data>> allDatas;
+    RecyclerView recyclerView;
+    RecyclerAdapter adapter;
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-            setContentView(R.layout.activity_main);
-
-
-            // feel_list = new Feel_List();
-            // feel_write = new Feel_write();
-
-            repository = new DataRepository(getApplication());
-            allDatas = repository.getAllDatas();
-            recyclerView = findViewById(R.id.recyclerView);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-            recyclerView.setLayoutManager(layoutManager);
+        setContentView(R.layout.activity_main);
 
 
-            allDatas.observe(this, new Observer<List<Data>>() { // 구독
-                @Override
-                public void onChanged(List<Data> data) {
+        // feel_list = new Feel_List();
+        // feel_write = new Feel_write();
 
-                    if (adapter == null) {
-                        adapter = new RecyclerAdapter(getApplicationContext(), data, 2); // 객체만들기
-                        recyclerView.setAdapter(adapter); //세팅을 해준다.
-                    } else {
-                        adapter.dataArrayList = data;
-                        adapter.notifyDataSetChanged();
-                    }
+        repository = new DataRepository(getApplication());
+        allDatas = repository.getAllDatas();
+        recyclerView = findViewById(R.id.recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+
+        allDatas.observe(this, new Observer<List<Data>>() { // 구독
+            @Override
+            public void onChanged(List<Data> data) {
+
+                if (adapter == null) {
+                    adapter = new RecyclerAdapter(getApplicationContext(), data, 2); // 객체만들기
+                    recyclerView.setAdapter(adapter); //세팅을 해준다.
+                } else {
+                    adapter.dataArrayList = data;
+                    adapter.notifyDataSetChanged();
                 }
-            });
+            }
+        });
 
 //메뉴버튼클릭시
-            Button Menubutton = findViewById(R.id.menu);
-            Menubutton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        Button Menubutton = findViewById(R.id.menu);
+        Menubutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                    popupmenu(v);//메뉴바를 누르면 숨겨진 옵션메뉴가 뜨게하기
+                popupmenu(v);//메뉴바를 누르면 숨겨진 옵션메뉴가 뜨게하기
 
-                }//Menubutton의 onClick 메서드 끝
-            });//Menubutton의 setOnClickListener끝
+            }//Menubutton의 onClick 메서드 끝
+        });//Menubutton의 setOnClickListener끝
 
 
-            //리스트버튼 클릭시(앨범으로 가기)
-            Button listButton = findViewById(R.id.cardMode);
-            listButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), PhotoActivity.class);
-                    startActivity(intent);
+        //리스트버튼 클릭시(앨범으로 가기)
+        Button listButton = findViewById(R.id.cardMode);
+        listButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), PhotoActivity.class);
+                startActivity(intent);
 
-                }//listButton onClick 메서드 끝
-            });//listButton setOnClickListener끝
+            }//listButton onClick 메서드 끝
+        });//listButton setOnClickListener끝
 
-            //글쓰기버튼 클릭시
-            FloatingActionButton writeButton = findViewById(R.id.fab);
-            writeButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(), "글쓰기선택", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(getApplicationContext(), FeelwriteActivity.class);
-                    startActivity(intent);
+        //글쓰기버튼 클릭시
+        FloatingActionButton writeButton = findViewById(R.id.fab);
+        writeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "글쓰기선택", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), FeelwriteActivity.class);
+                startActivity(intent);
 //                getSupportFragmentManager().beginTransaction().replace(R.id.container, feel_write).commit();
 
             }
         });//글쓰기 끝
 
     }//onCreate 끝
-
-    //숨겨진옵션메뉴
-    private void popupmenu(View v){
-
-
-        PopupMenu p = new PopupMenu(
-                getApplicationContext(), // 현재 화면의 제어권자
-                v); // anchor : 팝업을 띄울 기준될 위젯
-        getMenuInflater().inflate(R.menu.popupmenu, p.getMenu());
-        // 이벤트 처리
-        p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent();
-                switch (item.getItemId()) {
-                    case R.id.w :
-                        Toast.makeText(getApplicationContext(),
-                                "팝업메뉴 이벤트 처리 - "
-                                        + item.getTitle(),
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.d :
-                        intent = new Intent(getApplicationContext(), CalendarChartActivity.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.c :
-                        intent = new Intent(getApplicationContext(), BackupActivity.class);
-                        startActivity(intent);
-                        break;
-                }
-            }
-            });//글쓰기 끝
-
-        }//onCreate 끝
 
         //숨겨진옵션메뉴
         private void popupmenu(View v) {
@@ -205,6 +171,8 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                             break;
                         case R.id.d:
+                            Intent intent2 = new Intent(getApplicationContext(), CalendarChartActivity.class);
+                            startActivity(intent2);
                             Toast.makeText(getApplicationContext(),
                                     "팝업메뉴 이벤트 처리 -"
                                             + item.getTitle(),
@@ -245,9 +213,9 @@ public class MainActivity extends AppCompatActivity {
             return super.onOptionsItemSelected(item);
 
 
-//            findViewById(R.id.button).setOnClickListener(view -> openFilePicker());
-//            findViewById(R.id.button2).setOnClickListener(view -> createFile());
-
+//           findViewById(R.id.button).setOnClickListener(view -> openFilePicker());
+//           findViewById(R.id.button2).setOnClickListener(view -> createFile());
+//
 //            requestSignIn();
         }
 
