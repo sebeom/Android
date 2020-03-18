@@ -1,20 +1,16 @@
 package com.feelings.record;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,21 +23,7 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -50,7 +32,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -60,12 +41,6 @@ public class FeelwriteActivity extends AppCompatActivity {
     public MutableLiveData<Boolean> flag;
     private DataRepository repository;
     private String saveFileUri;
-
-    public static final int VERY_HAPPY=5;
-    public static final int HAPPY=4;
-    public static final int NORMAL=3;
-    public static final int BAD=2;
-    public static final int HORRIBLE=1;
 
     //날짜 시간
     Calendar myCalendar = Calendar.getInstance();
@@ -258,6 +233,7 @@ public class FeelwriteActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         textView_Date = findViewById(R.id.datePicker);
         FloatingActionButton saveButton = findViewById(R.id.saveButton);
+        FloatingActionButton saveButton = findViewById(R.id.);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -353,19 +329,19 @@ public class FeelwriteActivity extends AppCompatActivity {
         int type=0;
         switch (id){
             case R.id.feelingBtn1:
-                type = VERY_HAPPY;
+                type = Data.VERY_HAPPY;
                 break;
             case R.id.feelingBtn2:
-                type = HAPPY;
+                type = Data.HAPPY;
                 break;
             case R.id.feelingBtn3:
-                type = NORMAL;
+                type = Data.NORMAL;
                 break;
             case R.id.feelingBtn4:
-                type = BAD;
+                type = Data.BAD;
                 break;
             case R.id.feelingBtn5:
-                type = HORRIBLE;
+                type = Data.HORRIBLE;
                 break;
         }
         return type;

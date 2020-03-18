@@ -1,10 +1,13 @@
 package com.feelings.record;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +24,10 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
     Context content;
     List<Data> dataArrayList;
-    int img;
-    public RecyclerAdapter(Context context, List<Data> data, int img) {
+
+    public RecyclerAdapter(Context context, List<Data> data) {
         this.content=context;
         this.dataArrayList=data;
-        this.img=img;
     }
 
     @Override
@@ -37,6 +39,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Data data=dataArrayList.get(position);
+        final int cardId=data.getId();
         String img = data.getImageview(); //경로에있던 이미지를 불러온다.
       //  holder.image.setImageResource(img);//비트맵(변수이름변경)
          // 기분에 받는값에 따라(switch)
@@ -55,7 +58,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(content,data.getContent(),Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(content,FeelwriteActivity.class);
+                intent.putExtra("DATA",data);
+                content.startActivity(intent);
+
             }
         });
         holder.moodImage.setImageDrawable(drawableMoodImage(data.getMood()));
@@ -71,6 +77,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         TextView title;
         CardView cardview;
         ImageView moodImage;
+        int cardId;
 
 
         public ViewHolder(View itemView) {
@@ -84,19 +91,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     private Drawable drawableMoodImage(int type){
         int imageId=9999;
         switch (type){
-            case FeelwriteActivity.VERY_HAPPY:
+            case Data.VERY_HAPPY:
                 imageId = R.drawable.feel1;
                 break;
-            case FeelwriteActivity.HAPPY:
+            case Data.HAPPY:
                 imageId = R.drawable.feel2;
                 break;
-            case FeelwriteActivity.NORMAL:
+            case Data.NORMAL:
                 imageId = R.drawable.feel3;
                 break;
-            case FeelwriteActivity.BAD:
+            case Data.BAD:
                 imageId = R.drawable.feel4;
                 break;
-            case FeelwriteActivity.HORRIBLE:
+            case Data.HORRIBLE:
                 imageId = R.drawable.feel5;
                 break;
         }
