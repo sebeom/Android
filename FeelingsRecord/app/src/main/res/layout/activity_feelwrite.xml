@@ -191,8 +191,35 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="bottom|right"
-            android:orientation="vertical">
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+
+                android:id="@+id/deleteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginEnd="220dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="33dp"
+                android:clickable="true"
+                android:src="@drawable/minus_circle"
+                android:tint="#FFFFFF"
+                app:backgroundTint="#C4195537"
+                app:backgroundTintMode="screen"
+                app:elevation="3dp"
+                app:fabSize="auto"
+                app:rippleColor="#ABFFFFFF" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -204,7 +231,7 @@
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="33dp"
                 android:clickable="true"
-                android:src="@drawable/check"
+                android:src="@drawable/plus_circle"
                 android:tint="#FFFFFF"
                 app:backgroundTint="#C4195537"
                 app:backgroundTintMode="screen"
@@ -212,5 +239,4 @@
                 app:fabSize="auto"
                 app:rippleColor="#ABFFFFFF" />
         </LinearLayout>
-
 </FrameLayout>
