@@ -233,7 +233,6 @@ public class FeelwriteActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         textView_Date = findViewById(R.id.datePicker);
         FloatingActionButton saveButton = findViewById(R.id.saveButton);
-        FloatingActionButton saveButton = findViewById(R.id.);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
