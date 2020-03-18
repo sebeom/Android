@@ -8,11 +8,10 @@ android {
 
     defaultConfig {
         applicationId "com.feelings.record"
-<<<<<<< HEAD
         minSdkVersion 16
-=======
+
         minSdkVersion 22
->>>>>>> 9efcd82212ac102d4b7e722b324bb194eaeb830e
+
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -64,7 +63,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-<<<<<<< HEAD
+
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.1.0'
@@ -89,7 +88,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:11.6.2'
     implementation 'com.google.firebase:firebase-core:11.6.2'*/
 
-=======
+
     implementation 'com.google.android.material:material:1.0.0'
 
 // 구글 드라이브, 로그인
@@ -118,5 +117,5 @@ dependencies {
     implementation('com.google.apis:google-api-services-calendar:v3-rev235-1.22.0'){
         exclude group: 'org.apache.httpcomponents'
     }
->>>>>>> 9efcd82212ac102d4b7e722b324bb194eaeb830e
+
 }

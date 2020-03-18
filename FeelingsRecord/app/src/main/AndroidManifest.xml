@@ -2,10 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 package="com.feelings.record">
 
-<<<<<<< HEAD
+
     <!--갤러리 관련 권한추가-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- 구글 로그인, 계정 설정-->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <!--백업관련 권한 추가
     <uses-permission android:name="android.permission.INTERNET" />
@@ -23,33 +29,18 @@ package="com.feelings.record">
         <activity android:name=".photoAdapter"
             android:theme="@style/Theme.AppCompat.Dialog"/>
         <activity android:name=".calchart.CalendarChartActivity"></activity>
-        <activity android:name=".FeelwriteActivity" />
+
         <activity android:name=".PhotoActivity" />
         <activity android:name=".MainActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-=======
-<!-- 구글 로그인, 계정 설정-->
-<uses-permission android:name="android.permission.INTERNET" />
-<uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-<uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
->>>>>>> 9efcd82212ac102d4b7e722b324bb194eaeb830e
-
-<application
-    android:allowBackup="true"
-    android:allowTaskReparenting="true"
-    android:icon="@mipmap/ic_launcher"
-    android:label="@string/app_name"
-    android:roundIcon="@mipmap/ic_launcher_round"
-    android:supportsRtl="true"
-    android:theme="@style/AppTheme">
-
-    <activity android:name=".MainActivity">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
-</application>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
 </manifest>
+
+
+
+
