@@ -9,13 +9,13 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
-class DataRepository {
+public class DataRepository {
 
     private static final String TAG = DataRepository.class.getSimpleName();
     private final DataDao dataDao;
     private final LiveData<List<Data>> allDatas;
 
-    DataRepository(Application application){
+    public DataRepository(Application application){
         DataRoomDatabase db = DataRoomDatabase.getDatabase(application);
         dataDao = db.dataDao();
         allDatas = dataDao.getAllDatas();

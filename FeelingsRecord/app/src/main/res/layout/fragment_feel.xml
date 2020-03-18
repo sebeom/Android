@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="70dp">
 
-        <com.feelings.cal.view.FeelDisplayView
+        <com.feelings.record.calchart.view.FeelDisplayView
             android:id="@+id/chart_very_happy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/chart_happy"/>
 
-        <com.feelings.cal.view.FeelDisplayView
+        <com.feelings.record.calchart.view.FeelDisplayView
             android:id="@+id/chart_happy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
             app:layout_constraintLeft_toRightOf="@+id/chart_very_happy"
             app:layout_constraintRight_toLeftOf="@+id/chart_normal"/>
 
-        <com.feelings.cal.view.FeelDisplayView
+        <com.feelings.record.calchart.view.FeelDisplayView
             android:id="@+id/chart_normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
 
-        <com.feelings.cal.view.FeelDisplayView
+        <com.feelings.record.calchart.view.FeelDisplayView
             android:id="@+id/chart_bad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
             app:layout_constraintLeft_toRightOf="@id/chart_normal"
             app:layout_constraintRight_toLeftOf="@id/chart_horrible"/>
 
-        <com.feelings.cal.view.FeelDisplayView
+        <com.feelings.record.calchart.view.FeelDisplayView
             android:id="@+id/chart_horrible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

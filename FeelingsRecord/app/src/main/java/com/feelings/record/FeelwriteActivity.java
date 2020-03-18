@@ -16,7 +16,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
-<<<<<<< HEAD
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,7 +34,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-=======
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -45,7 +43,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
->>>>>>> origin/db
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -85,14 +82,15 @@ public class FeelwriteActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 0;
     private ImageView imageView;
-<<<<<<< HEAD
-    private TextView textView_Date;
+
+
+    private EditText textView_Date;
+
     private TimePickerDialog.OnTimeSetListener callbackMethod;
     private EditText editText;
 
-=======
     private RadioGroup radioGroup;
->>>>>>> origin/db
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -254,7 +252,7 @@ public class FeelwriteActivity extends AppCompatActivity {
     private void initUI() {
         radioGroup = findViewById(R.id.radioGroup);
         imageView = findViewById(R.id.imageView);
-
+        textView_Date = findViewById(R.id.datePicker);
         FloatingActionButton saveButton = findViewById(R.id.saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -265,6 +263,8 @@ public class FeelwriteActivity extends AppCompatActivity {
                 if(imageView.toString().trim().length() == 0) return;
                 if(typeId == -1) return;
                 try{
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy,MM,dd", Locale.KOREA);
+
                     String content = inputcontent.getText().toString().trim();
 
                     BitmapDrawable bitDraw = (BitmapDrawable)imageView.getDrawable();
@@ -279,6 +279,7 @@ public class FeelwriteActivity extends AppCompatActivity {
                     data.setContent(content); //나머지 데이터들 넣기
                     data.setImageview(file.getPath());
                     data.setMood(getMoodType(typeId));
+                    data.setDate(sdf.format(myCalendar.getTime()));
 
                     repository.insert(data, flag);
                 }catch (Exception e){
@@ -288,9 +289,8 @@ public class FeelwriteActivity extends AppCompatActivity {
             }
         });
     }
-
     private void updateLabel() {
-        String myFormat = "yyyy/MM/dd";    // 출력형식   2018/11/28
+        String myFormat = "yyyy년 MM월 dd일";    // 출력형식   2018/11/28
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.KOREA);
 
         EditText et_date = (EditText) findViewById(R.id.datePicker);
@@ -298,7 +298,6 @@ public class FeelwriteActivity extends AppCompatActivity {
 
         String myFormat2 = "HH시 mm분";
     }
-<<<<<<< HEAD
 
 
     //숨겨진옵션메뉴
@@ -344,7 +343,7 @@ public class FeelwriteActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-=======
+    }
     private int getMoodType(int id){
         int type=0;
         switch (id){
@@ -365,6 +364,5 @@ public class FeelwriteActivity extends AppCompatActivity {
                 break;
         }
         return type;
->>>>>>> origin/db
     }
 }

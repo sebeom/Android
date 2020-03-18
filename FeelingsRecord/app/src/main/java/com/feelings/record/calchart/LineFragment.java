@@ -2,6 +2,7 @@ package com.feelings.record.calchart;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LineFragment extends Fragment {
@@ -44,12 +46,15 @@ public class LineFragment extends Fragment {
 
         ArrayList<Entry> entries = new ArrayList<>();
 
+        Collections.sort(calendarDays);
+
         int minDay=31;
         int maxDay=0;
         ArrayList<Integer> colors = new ArrayList<>();
         for(CalendarData data : calendarDays){
             entries.add(new Entry(data.getFeeling(),data.getCalendarData().getDay()));
             colors.add(data.getFeelColor());
+            Log.d("LineF_createLineChart1",data.getFeelColor()+"");
             if(minDay > data.getCalendarData().getDay()) minDay = data.getCalendarData().getDay();
             if(maxDay < data.getCalendarData().getDay()) maxDay = data.getCalendarData().getDay();
         }

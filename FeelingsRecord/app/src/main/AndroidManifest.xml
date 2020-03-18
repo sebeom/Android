@@ -29,7 +29,6 @@ package="com.feelings.record">
         <activity android:name=".photoAdapter"
             android:theme="@style/Theme.AppCompat.Dialog"/>
         <activity android:name=".calchart.CalendarChartActivity"></activity>
-
         <activity android:name=".PhotoActivity" />
         <activity android:name=".MainActivity">
 
