@@ -230,6 +230,9 @@ public class FeelwriteActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK) // 액션의 결과값
             {
                 try{
+
+
+
                     DisplayMetrics met = new DisplayMetrics();
                     WindowManager manager = (WindowManager)getApplicationContext().getSystemService((Context.WINDOW_SERVICE));
                     manager.getDefaultDisplay().getMetrics(met);
