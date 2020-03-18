@@ -29,7 +29,7 @@ import java.util.concurrent.Executors;
 
 public class FeelFragment extends Fragment implements CalendarDataListener{
 
-    private HashMap<Integer,FeelDisplayView> feelViews;
+    private HashMap<Integer, FeelDisplayView> feelViews;
     private ArrayList<CalendarData> dataArr;
 
     private CalendarDataListener listener;
@@ -77,9 +77,9 @@ public class FeelFragment extends Fragment implements CalendarDataListener{
 
     private class ApiSimulator extends AsyncTask<Void, Void, List<CalendarData>> {
 
-        String[] Time_Result;
+        ArrayList<String> Time_Result;
 
-        ApiSimulator(String[] Time_Result){
+        ApiSimulator(ArrayList<String> Time_Result){
             this.Time_Result = Time_Result;
         }
 
@@ -92,8 +92,8 @@ public class FeelFragment extends Fragment implements CalendarDataListener{
             /*특정날짜 달력에 점표시해주는곳*/
             /*월은 0이 1월 년,일은 그대로*/
             //string 문자열인 Time_Result 을 받아와서 ,를 기준으로짜르고 string을 int 로 변환
-            for(int i = 0 ; i < Time_Result.length ; i ++){
-                String[] time = Time_Result[i].split(",");
+            for(String str : Time_Result){
+                String[] time = str.split(",");
                 int year = Integer.parseInt(time[0]);
                 int month = Integer.parseInt(time[1]);
                 int dayy = Integer.parseInt(time[2]);
@@ -119,10 +119,10 @@ public class FeelFragment extends Fragment implements CalendarDataListener{
 
         }
     }
-    public void putCalendarValue(String[] str){
+    public void putCalendarValue(ArrayList<String> str){
         addCalendarDraw(str);
     }
-    private void addCalendarDraw(String[] dateStr){
+    private void addCalendarDraw(ArrayList<String> dateStr){
         new ApiSimulator(dateStr).executeOnExecutor(Executors.newSingleThreadExecutor());
     }
     private EventDecorator distinctionCalender(List<CalendarData> calendarDays, int isFeel){
