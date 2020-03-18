@@ -2,7 +2,7 @@ package com.feelings.record.calchart.decorator;
 
 import android.graphics.Color;
 
-import com.feelings.record.calchart.data.CalendarData;
+import com.feelings.cal.data.CalendarData;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;

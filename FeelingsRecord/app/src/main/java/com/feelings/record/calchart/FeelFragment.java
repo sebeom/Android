@@ -11,9 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.feelings.record.calchart.data.CalendarData;
-import com.feelings.record.calchart.decorator.EventDecorator;
-import com.feelings.record.calchart.view.FeelDisplayView;
+import com.feelings.cal.data.CalendarData;
+import com.feelings.cal.decorator.EventDecorator;
+import com.feelings.cal.view.FeelDisplayView;
 import com.feelings.record.R;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
