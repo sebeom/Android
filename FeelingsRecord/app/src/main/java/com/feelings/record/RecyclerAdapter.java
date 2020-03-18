@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,9 +40,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         String img = data.getImageview(); //경로에있던 이미지를 불러온다.
       //  holder.image.setImageResource(img);//비트맵(변수이름변경)
          // 기분에 받는값에 따라(switch)
-        if (data.getImageview()==null)holder.image.setVisibility(View.INVISIBLE);
-        else holder.image.setImageURI(Uri.parse(data.getImageview()));
-
+        if(data.getImageview()!=null) holder.image.setImageURI(Uri.parse(data.getImageview()));
+        else{
+            LinearLayout parent = (LinearLayout)holder.image.getParent();
+            parent.removeView(holder.image);
+        }
 
         holder.title.setText(data.getContent());
         holder.cardview.setOnClickListener(new View.OnClickListener() {

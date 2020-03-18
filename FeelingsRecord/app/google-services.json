@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "522361721055",
+    "firebase_url": "https://feelingbackup-e110a.firebaseio.com",
+    "project_id": "feelingbackup-e110a",
+    "storage_bucket": "feelingbackup-e110a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:522361721055:android:5d0b2f95778f7d4986596a",
+        "android_client_info": {
+          "package_name": "com.feelings.record"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "522361721055-p9ohr4tu5lld0h076kc5dlh6kal7alug.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnGbOByair37Feud8y6wJbGuy1J36aiyg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "522361721055-p9ohr4tu5lld0h076kc5dlh6kal7alug.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

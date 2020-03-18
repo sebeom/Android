@@ -29,7 +29,7 @@ import java.util.concurrent.Executors;
 
 public class FeelFragment extends Fragment implements CalendarDataListener{
 
-    private HashMap<Integer,FeelDisplayView> feelViews;
+    private HashMap<Integer, FeelDisplayView> feelViews;
     private ArrayList<CalendarData> dataArr;
 
     private CalendarDataListener listener;
