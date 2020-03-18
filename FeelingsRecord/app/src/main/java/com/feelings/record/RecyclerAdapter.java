@@ -60,6 +60,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             public void onClick(View v) {
                 Intent intent = new Intent(content,FeelwriteActivity.class);
                 intent.putExtra("DATA",data);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 content.startActivity(intent);
 
             }

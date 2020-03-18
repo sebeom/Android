@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,6 +43,7 @@ public class FeelwriteActivity extends AppCompatActivity {
     private DataRepository repository;
     private String saveFileUri;
 
+
     //날짜 시간
     Calendar myCalendar = Calendar.getInstance();
     DatePickerDialog.OnDateSetListener myDatePicker = new DatePickerDialog.OnDateSetListener() {
@@ -54,18 +56,14 @@ public class FeelwriteActivity extends AppCompatActivity {
         }
     };
 
-
     private static final int REQUEST_CODE = 0;
     private ImageView imageView;
-
-
     private EditText textView_Date;
-
-    private TimePickerDialog.OnTimeSetListener callbackMethod;
-    private EditText editText;
-
     private RadioGroup radioGroup;
+    private EditText contentText;
 
+    FloatingActionButton saveButton;
+    FloatingActionButton deleteButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,13 +82,11 @@ public class FeelwriteActivity extends AppCompatActivity {
             }
         });
 
-
         //날짜선택
         EditText date = (EditText) findViewById(R.id.datePicker);
 
         SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월 dd일");
-        Calendar Dtime = Calendar.getInstance();
-        String format_time1 = format1.format(Dtime.getTime());
+        String format_time1 = format1.format(myCalendar.getTime());
         date.setText(format_time1); //gettext 가져온다
 
         date.setOnClickListener(new View.OnClickListener() {
@@ -99,11 +95,6 @@ public class FeelwriteActivity extends AppCompatActivity {
                 new DatePickerDialog(FeelwriteActivity.this, myDatePicker, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-
-
-
-
-
 
         //시간선택
         final EditText et_time = (EditText) findViewById(R.id.timePicker);
@@ -205,9 +196,6 @@ public class FeelwriteActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK) // 액션의 결과값
             {
                 try{
-
-
-
                     DisplayMetrics met = new DisplayMetrics();
                     WindowManager manager = (WindowManager)getApplicationContext().getSystemService((Context.WINDOW_SERVICE));
                     manager.getDefaultDisplay().getMetrics(met);
@@ -232,43 +220,49 @@ public class FeelwriteActivity extends AppCompatActivity {
         radioGroup = findViewById(R.id.radioGroup);
         imageView = findViewById(R.id.imageView);
         textView_Date = findViewById(R.id.datePicker);
-        FloatingActionButton saveButton = findViewById(R.id.saveButton);
-        FloatingActionButton saveButton = findViewById(R.id.);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int typeId = radioGroup.getCheckedRadioButtonId();
-                EditText inputcontent = findViewById(R.id.content);
-                if(inputcontent.getText().toString().trim().length() == 0) return;
-                if(typeId == -1) return;
-                try{
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy,MM,dd", Locale.KOREA);
+        contentText = findViewById(R.id.content);
+        saveButton = findViewById(R.id.saveButton);
+        deleteButton = findViewById(R.id.deleteButton);
 
-                    String content = inputcontent.getText().toString().trim();
+        Data tempData = getIntent().getParcelableExtra("DATA");
+        if(tempData !=null) dataUsageInput(tempData);
+        else{
+            saveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int typeId = radioGroup.getCheckedRadioButtonId();
+                    EditText inputcontent = findViewById(R.id.content);
+                    if(inputcontent.getText().toString().trim().length() == 0) return;
+                    if(typeId == -1) return;
+                    try{
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy,MM,dd", Locale.KOREA);
 
-                    Data data = new Data();
-                    data.setContent(content); //나머지 데이터들 넣기
-                    Log.d("FeelWriteActivity",imageView.getTag()+"");
-                    if(imageView.getTag()!=null){
-                        BitmapDrawable bitDraw = (BitmapDrawable)imageView.getDrawable();
-                        Bitmap bitmap = bitDraw.getBitmap();
+                        String content = inputcontent.getText().toString().trim();
 
-                        String fileName = UUID.randomUUID().toString();
-                        File file = new File(getCacheDir(),fileName+".jpg");
-                        FileOutputStream fos = new FileOutputStream(file);
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                        data.setImageview(file.getPath());
+                        Data data = new Data();
+                        data.setContent(content); //나머지 데이터들 넣기
+                        Log.d("FeelWriteActivity",imageView.getTag()+"");
+                        if(imageView.getTag()!=null){
+                            BitmapDrawable bitDraw = (BitmapDrawable)imageView.getDrawable();
+                            Bitmap bitmap = bitDraw.getBitmap();
+
+                            String fileName = UUID.randomUUID().toString();
+                            File file = new File(getCacheDir(),fileName+".jpg");
+                            FileOutputStream fos = new FileOutputStream(file);
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                            data.setImageview(file.getPath());
+                        }
+                        data.setMood(getMoodType(typeId));
+                        data.setDate(sdf.format(myCalendar.getTime()));
+
+                        repository.insert(data, flag);
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
-                    data.setMood(getMoodType(typeId));
-                    data.setDate(sdf.format(myCalendar.getTime()));
 
-                    repository.insert(data, flag);
-                }catch (Exception e){
-                    e.printStackTrace();
                 }
-
-            }
-        });
+            });
+        }
     }
     private void updateLabel() {
         String myFormat = "yyyy년 MM월 dd일";    // 출력형식   2018/11/28
@@ -276,8 +270,6 @@ public class FeelwriteActivity extends AppCompatActivity {
 
         EditText et_date = (EditText) findViewById(R.id.datePicker);
         et_date.setText(sdf.format(myCalendar.getTime()));
-
-        String myFormat2 = "HH시 mm분";
     }
 
 
@@ -345,5 +337,57 @@ public class FeelwriteActivity extends AppCompatActivity {
                 break;
         }
         return type;
+    }
+    private int getMoodRadioType(int id){
+        int type=0;
+        switch (id){
+            case Data.VERY_HAPPY:
+                type = R.id.feelingBtn1;
+                break;
+            case Data.HAPPY:
+                type = R.id.feelingBtn2;
+                break;
+            case Data.NORMAL:
+                type = R.id.feelingBtn3;
+                break;
+            case Data.BAD:
+                type = R.id.feelingBtn4;
+                break;
+            case Data.HORRIBLE:
+                type = R.id.feelingBtn5;
+                break;
+        }
+        return type;
+    }
+    private void dataUsageInput(Data data){
+        String[] dateStr = data.getDate().split(",");
+
+        deleteButton.setVisibility(View.VISIBLE);
+
+        myCalendar.set(Integer.parseInt(dateStr[0]),Integer.parseInt(dateStr[1])-1,Integer.parseInt(dateStr[2]));
+        if(data.getImageview()!=null)imageView.setImageURI(Uri.parse(data.getImageview()));
+        contentText.setText(data.getContent());
+        radioGroup.check(getMoodRadioType(data.getMood()));
+        updateLabel();
+
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                File file = new File(data.getImageview());
+                file.delete();
+                repository.delete(data,flag);
+                Toast.makeText(getApplication(),"삭제되었습니다",Toast.LENGTH_LONG).show();
+            }
+        });
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                File file = new File(data.getImageview());
+                file.delete();
+                repository.update(data,flag);
+                Toast.makeText(getApplication(),"수정되었습니다",Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
