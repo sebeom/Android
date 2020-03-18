@@ -235,6 +235,7 @@ public class FeelwriteActivity extends AppCompatActivity {
                     manager.getDefaultDisplay().getMetrics(met);
 
                     imageView.setImageURI(data.getData());
+                    imageView.setTag(1,"true");
                     ViewGroup.LayoutParams params = (ViewGroup.LayoutParams)imageView.getLayoutParams();
                     params.height = met.heightPixels/2;
                 }catch(Exception e)
@@ -260,24 +261,25 @@ public class FeelwriteActivity extends AppCompatActivity {
                 int typeId = radioGroup.getCheckedRadioButtonId();
                 EditText inputcontent = findViewById(R.id.content);
                 if(inputcontent.getText().toString().trim().length() == 0) return;
-                if(imageView.toString().trim().length() == 0) return;
                 if(typeId == -1) return;
                 try{
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy,MM,dd", Locale.KOREA);
 
                     String content = inputcontent.getText().toString().trim();
 
-                    BitmapDrawable bitDraw = (BitmapDrawable)imageView.getDrawable();
-                    Bitmap bitmap = bitDraw.getBitmap();
-
-                    String fileName = UUID.randomUUID().toString();
-                    File file = new File(getCacheDir(),fileName+".jpg");
-                    FileOutputStream fos = new FileOutputStream(file);
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-
                     Data data = new Data();
                     data.setContent(content); //나머지 데이터들 넣기
-                    data.setImageview(file.getPath());
+                    Log.d("getResources()",imageView.getResources()+"");
+                    if(imageView.getTag(1)!=null){
+                        BitmapDrawable bitDraw = (BitmapDrawable)imageView.getDrawable();
+                        Bitmap bitmap = bitDraw.getBitmap();
+
+                        String fileName = UUID.randomUUID().toString();
+                        File file = new File(getCacheDir(),fileName+".jpg");
+                        FileOutputStream fos = new FileOutputStream(file);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                        data.setImageview(file.getPath());
+                    }
                     data.setMood(getMoodType(typeId));
                     data.setDate(sdf.format(myCalendar.getTime()));
 

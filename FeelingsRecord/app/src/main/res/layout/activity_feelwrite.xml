@@ -130,7 +130,7 @@
                 android:id="@+id/content"
                 android:layout_width="328dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="0dp"
                 android:ems="10"
                 android:hint="왜 이런 기분이 들었나요?"
                 android:inputType="text"
@@ -145,7 +145,7 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="400dp"
+                android:layout_height="wrap_content"
                 android:gravity="top"
                 android:orientation="vertical"
                 android:scaleType="centerInside">
@@ -165,7 +165,6 @@
 
 
         </LinearLayout>
-    </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

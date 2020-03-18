@@ -148,41 +148,6 @@ public class MainActivity extends AppCompatActivity {
         });//글쓰기 끝
 
     }//onCreate 끝
-
-    //숨겨진옵션메뉴
-    private void popupmenu(View v){
-
-
-        PopupMenu p = new PopupMenu(
-                getApplicationContext(), // 현재 화면의 제어권자
-                v); // anchor : 팝업을 띄울 기준될 위젯
-        getMenuInflater().inflate(R.menu.popupmenu, p.getMenu());
-        // 이벤트 처리
-        p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent();
-                switch (item.getItemId()) {
-                    case R.id.w :
-                        Toast.makeText(getApplicationContext(),
-                                "팝업메뉴 이벤트 처리 - "
-                                        + item.getTitle(),
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.d :
-                        intent = new Intent(getApplicationContext(), CalendarChartActivity.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.c :
-                        intent = new Intent(getApplicationContext(), BackupActivity.class);
-                        startActivity(intent);
-                        break;
-                }
-            }
-            });//글쓰기 끝
-
-        }//onCreate 끝
-
         //숨겨진옵션메뉴
         private void popupmenu(View v) {
 
@@ -195,23 +160,20 @@ public class MainActivity extends AppCompatActivity {
             p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
+                    Intent intent = new Intent();
                     switch (item.getItemId()) {
-                        case R.id.w:
-                            Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent1);
+                        case R.id.w :
                             Toast.makeText(getApplicationContext(),
                                     "팝업메뉴 이벤트 처리 - "
                                             + item.getTitle(),
                                     Toast.LENGTH_SHORT).show();
                             break;
-                        case R.id.d:
-                            Toast.makeText(getApplicationContext(),
-                                    "팝업메뉴 이벤트 처리 -"
-                                            + item.getTitle(),
-                                    Toast.LENGTH_SHORT).show();
+                        case R.id.d :
+                            intent = new Intent(getApplicationContext(), CalendarChartActivity.class);
+                            startActivity(intent);
                             break;
-                        case R.id.c:
-                            Intent intent = new Intent(getApplicationContext(), BackupActivity.class);
+                        case R.id.c :
+                            intent = new Intent(getApplicationContext(), BackupActivity.class);
                             startActivity(intent);
                             break;
                     }
