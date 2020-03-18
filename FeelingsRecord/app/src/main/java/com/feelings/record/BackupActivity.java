@@ -88,5 +88,9 @@ public class BackupActivity extends AppCompatActivity {
 
     private void updateUI(GoogleSignInAccount account) {
     }
-
+//
+//    findViewById(R.id.button).setOnClickListener(view -> openFilePicker());
+//    findViewById(R.id.button2).setOnClickListener(view -> createFile());
+//
+//    requestSignIn();
 }
