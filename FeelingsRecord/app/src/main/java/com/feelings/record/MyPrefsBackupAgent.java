@@ -7,9 +7,9 @@ import android.content.SharedPreferences;
 
 public class MyPrefsBackupAgent extends BackupAgentHelper {
 
-    static final String PREFS = "TEST";  // SharedPreferences 파일의 이름
-    static final String PREFS_BACKUP_KEY = "AEdPqrEAAAAIZZvCDThZh8M_osvijf4MiG1qWoYV9vA1PIhQRA";
-    // 백업 데이터 세트를 고유하게 식별하는 키
+    static final String PREFS = "com.feelings.record";  // SharedPreferences 파일의 이름
+    static final String PREFS_BACKUP_KEY = "feeling";
+    // 백업 데이터 세트를 고유하게 식별하는 키(임의 문자열)
 
     // 도우미를 할당하고 백업 에이전트에 추가
     @Override

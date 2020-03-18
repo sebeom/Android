@@ -38,6 +38,14 @@ public class BackupActivity extends AppCompatActivity {
                 }
             }
         });
+        Button googleBackupButton = findViewById(R.id.googleBackupButton);
+        googleBackupButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(getApplicationContext(), MyPrefsBackupAgent.class);
+                startActivity(intent);
+            }
+        });
 
 
         // 사용자 ID, 이메일 주소 및 기본을 요청하도록 로그인 구성
@@ -91,14 +99,7 @@ public class BackupActivity extends AppCompatActivity {
 
 
     private void updateUI(GoogleSignInAccount account) {
-        Button googleBackupButton = findViewById(R.id.googleBackupButton);
-        googleBackupButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(getApplicationContext(), MyPrefsBackupAgent.class);
-                startActivity(intent);
-            }
-        });
+
     }
 }
 
