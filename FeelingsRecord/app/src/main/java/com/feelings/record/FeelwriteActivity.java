@@ -256,20 +256,21 @@ public class FeelwriteActivity extends AppCompatActivity {
                 int typeId = radioGroup.getCheckedRadioButtonId();
                 EditText inputcontent = findViewById(R.id.content);
                 if(inputcontent.getText().toString().trim().length() == 0) return;
-                if(imageView.toString().trim().length() == 0) return;
+                //if(imageView.toString().trim().length() == 0) return;
                 if(typeId == -1) return;
                 try{
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy,MM,dd", Locale.KOREA);
 
                     String content = inputcontent.getText().toString().trim();
-
-                    BitmapDrawable bitDraw = (BitmapDrawable)imageView.getDrawable();
-                    Bitmap bitmap = bitDraw.getBitmap();
-
-                    String fileName = UUID.randomUUID().toString();
-                    File file = new File(getCacheDir(),fileName+".jpg");
-                    FileOutputStream fos = new FileOutputStream(file);
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                    BitmapDrawable bitDraw;
+                    if(imageView.getDrawable() != null) {
+                        bitDraw = (BitmapDrawable) imageView.getDrawable();
+                        Bitmap bitmap = bitDraw.getBitmap();
+                        String fileName = UUID.randomUUID().toString();
+                        File file = new File(getCacheDir(),fileName+".jpg");
+                        FileOutputStream fos = new FileOutputStream(file);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                    }
 
                     Data data = new Data();
                     data.setContent(content); //나머지 데이터들 넣기

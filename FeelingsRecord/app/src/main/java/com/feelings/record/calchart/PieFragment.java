@@ -32,7 +32,6 @@ public class PieFragment extends Fragment {
 
         pieChart = v.findViewById(R.id.piechart);
 
-
         return v;
     }
     public void createPieChart(int[] feels){

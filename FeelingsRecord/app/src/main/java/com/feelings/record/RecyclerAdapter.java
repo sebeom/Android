@@ -39,7 +39,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         String img = data.getImageview(); //경로에있던 이미지를 불러온다.
       //  holder.image.setImageResource(img);//비트맵(변수이름변경)
          // 기분에 받는값에 따라(switch)
-        holder.image.setImageURI(Uri.parse(data.getImageview()));
+        if (data.getImageview()==null)holder.image.setVisibility(View.INVISIBLE);
+        else holder.image.setImageURI(Uri.parse(data.getImageview()));
+
 
         holder.title.setText(data.getContent());
         holder.cardview.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +74,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         }
     }
     private Drawable drawableMoodImage(int type){
-        int imageId=R.drawable.feel1;
+        int imageId=9999;
         switch (type){
             case FeelwriteActivity.VERY_HAPPY:
                 imageId = R.drawable.feel1;
@@ -90,7 +92,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 imageId = R.drawable.feel5;
                 break;
         }
-        Drawable d = content.getResources().getDrawable(imageId);
-        return d;
+        if (imageId==9999)return null;
+        else return content.getResources().getDrawable(imageId);
     }
 }
