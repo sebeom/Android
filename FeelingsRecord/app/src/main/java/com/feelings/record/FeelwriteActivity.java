@@ -235,8 +235,8 @@ public class FeelwriteActivity extends AppCompatActivity {
                     manager.getDefaultDisplay().getMetrics(met);
 
                     imageView.setImageURI(data.getData());
-                    imageView.setTag(1,"true");
-                    ViewGroup.LayoutParams params = (ViewGroup.LayoutParams)imageView.getLayoutParams();
+                    imageView.setTag("true");
+                    ViewGroup.LayoutParams params = imageView.getLayoutParams();
                     params.height = met.heightPixels/2;
                 }catch(Exception e)
                 {
@@ -269,8 +269,8 @@ public class FeelwriteActivity extends AppCompatActivity {
 
                     Data data = new Data();
                     data.setContent(content); //나머지 데이터들 넣기
-                    Log.d("getResources()",imageView.getResources()+"");
-                    if(imageView.getTag(1)!=null){
+                    Log.d("FeelWriteActivity",imageView.getTag()+"");
+                    if(imageView.getTag()!=null){
                         BitmapDrawable bitDraw = (BitmapDrawable)imageView.getDrawable();
                         Bitmap bitmap = bitDraw.getBitmap();
 

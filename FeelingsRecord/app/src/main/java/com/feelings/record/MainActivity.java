@@ -171,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.d :
                             intent = new Intent(getApplicationContext(), CalendarChartActivity.class);
                             startActivity(intent);
+                            break;
                         case R.id.c :
                             intent = new Intent(getApplicationContext(), BackupActivity.class);
                             startActivity(intent);
