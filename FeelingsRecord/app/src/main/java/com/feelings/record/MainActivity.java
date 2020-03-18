@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(List<Data> data) {
 
                 if (adapter == null) {
-                    adapter = new RecyclerAdapter(getApplicationContext(), data, 2); // 객체만들기
+                    adapter = new RecyclerAdapter(getApplicationContext(), data); // 객체만들기
                     recyclerView.setAdapter(adapter); //세팅을 해준다.
                 } else {
                     adapter.dataArrayList = data;
