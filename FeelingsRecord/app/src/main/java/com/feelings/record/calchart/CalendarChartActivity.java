@@ -62,7 +62,6 @@ public class CalendarChartActivity extends AppCompatActivity implements Calendar
             public void onChanged(List<Data> data) {
                 for (Data d : data){
                     valueArr.add(d.getDate()+","+d.getMood());
-                    Log.d("onChanged",d.getDate()+","+d.getMood()+"");
                 }
                 calendarFragment.putCalendarValue(valueArr);
                 calendarFragment.setCalendarDataListener(CalendarChartActivity.this);

@@ -54,7 +54,6 @@ public class LineFragment extends Fragment {
         for(CalendarData data : calendarDays){
             entries.add(new Entry(data.getFeeling(),data.getCalendarData().getDay()));
             colors.add(data.getFeelColor());
-            Log.d("LineF_createLineChart1",data.getFeelColor()+"");
             if(minDay > data.getCalendarData().getDay()) minDay = data.getCalendarData().getDay();
             if(maxDay < data.getCalendarData().getDay()) maxDay = data.getCalendarData().getDay();
         }
