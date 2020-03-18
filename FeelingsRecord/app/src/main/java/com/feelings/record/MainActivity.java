@@ -33,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.feelings.record.calchart.CalendarChartActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.reflect.Array;
@@ -125,6 +126,7 @@ public class MainActivity extends AppCompatActivity  {
         p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent();
                 switch (item.getItemId()) {
                     case R.id.w :
                         Toast.makeText(getApplicationContext(),
@@ -133,13 +135,11 @@ public class MainActivity extends AppCompatActivity  {
                                 Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.d :
-                        Toast.makeText(getApplicationContext(),
-                                "팝업메뉴 이벤트 처리 -"
-                                        + item.getTitle(),
-                                Toast.LENGTH_SHORT).show();
+                        intent = new Intent(getApplicationContext(), CalendarChartActivity.class);
+                        startActivity(intent);
                         break;
                     case R.id.c :
-                        Intent intent = new Intent(getApplicationContext(), BackupActivity.class);
+                        intent = new Intent(getApplicationContext(), BackupActivity.class);
                         startActivity(intent);
                         break;
                 }

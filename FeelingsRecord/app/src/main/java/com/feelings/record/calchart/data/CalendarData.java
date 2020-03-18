@@ -10,7 +10,7 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class CalendarData extends HashMap{
+public class CalendarData extends HashMap implements Comparable{
 
     public static final int VERY_HAPPY=5;
     public static final int HAPPY=4;
@@ -71,4 +71,13 @@ public class CalendarData extends HashMap{
         return (calDay.getYear() == (year) ? true : false );
     }
 
+    @Override
+    public int compareTo(Object o) {
+        if(o instanceof CalendarData){
+            CalendarData temp = (CalendarData)o;
+            int i=0;
+            return (getCalendarData().getDay() > temp.getCalendarData().getDay()? 1 : -1);
+        }
+        return 0;
+    }
 }

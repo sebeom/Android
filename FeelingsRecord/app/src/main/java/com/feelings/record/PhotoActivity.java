@@ -161,9 +161,8 @@ public class PhotoActivity extends AppCompatActivity {
                     MediaStore.Images.Media.DATA,
                     MediaStore.Images.Media.DISPLAY_NAME
             };
-
             Cursor cursor = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    proj, "bucket_display_name='TEST'", null, null);
+                    proj, "bucket_display_name='cache'", null, null);
 
             if (cursor.moveToFirst()){
                 String ID;

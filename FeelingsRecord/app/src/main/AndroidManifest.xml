@@ -22,7 +22,6 @@
         <activity android:name=".photoAdapter"
             android:theme="@style/Theme.AppCompat.Dialog"/>
         <activity android:name=".calchart.CalendarChartActivity"></activity>
-        <activity android:name=".FeelwriteActivity" />
         <activity android:name=".PhotoActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
