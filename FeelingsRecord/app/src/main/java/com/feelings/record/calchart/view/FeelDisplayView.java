@@ -64,4 +64,8 @@ public class FeelDisplayView extends LinearLayout {
     public void setFeelText(String msg){
         text.setText(msg);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> a9e7448a820b8ec3515c93e2887c1ef9b169507e
