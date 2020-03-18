@@ -28,32 +28,37 @@ public class FeelDisplayView extends LinearLayout {
         init();
         getAttrs(attrs);
     }
+
     public FeelDisplayView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs);
         init();
-        getAttrs(attrs,defStyle);
+        getAttrs(attrs, defStyle);
     }
-    private void init(){
-        LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.feelchart_view,this,false);
+
+    private void init() {
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflater.inflate(R.layout.feelchart_view, this, false);
         text = v.findViewById(R.id.chartText);
         chartBar = v.findViewById(R.id.chartBar);
         title = v.findViewById(R.id.chartTitle);
         addView(v);
     }
-    private void getAttrs(AttributeSet attrs){
-        TypedArray typedArray = getContext().obtainStyledAttributes(attrs,R.styleable.FeelDisplayView);
+
+    private void getAttrs(AttributeSet attrs) {
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.FeelDisplayView);
         setTypeArray(typedArray);
     }
-    private void getAttrs(AttributeSet attrs,int def){
-        TypedArray typedArray = getContext().obtainStyledAttributes(attrs,R.styleable.FeelDisplayView,def,0);
+
+    private void getAttrs(AttributeSet attrs, int def) {
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.FeelDisplayView, def, 0);
         setTypeArray(typedArray);
     }
+
     private void setTypeArray(TypedArray typedArray) {
         String str = typedArray.getString(R.styleable.FeelDisplayView_chartTitle);
         title.setText(str);
 
-        int color=typedArray.getColor(R.styleable.FeelDisplayView_chartColor,0);
+        int color = typedArray.getColor(R.styleable.FeelDisplayView_chartColor, 0);
         text.setTextColor(color);
         title.setTextColor(color);
         chartBar.setBackgroundColor(color);
@@ -61,11 +66,8 @@ public class FeelDisplayView extends LinearLayout {
         typedArray.recycle();
 
     }
-    public void setFeelText(String msg){
+
+    public void setFeelText(String msg) {
         text.setText(msg);
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> a9e7448a820b8ec3515c93e2887c1ef9b169507e
