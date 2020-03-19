@@ -42,7 +42,14 @@ public class FeelwriteActivity extends AppCompatActivity {
     public MutableLiveData<Boolean> flag;
     private DataRepository repository;
     private String saveFileUri;
+    private static final int REQUEST_CODE = 0;
+    private ImageView imageView;
+    private EditText textView_Date;
+    private RadioGroup radioGroup;
+    private EditText contentText;
 
+    FloatingActionButton saveButton;
+    FloatingActionButton deleteButton;
 
     //날짜 시간
     Calendar myCalendar = Calendar.getInstance();
@@ -56,15 +63,6 @@ public class FeelwriteActivity extends AppCompatActivity {
         }
     };
 
-    private static final int REQUEST_CODE = 0;
-    private ImageView imageView;
-    private EditText textView_Date;
-    private RadioGroup radioGroup;
-    private EditText contentText;
-
-    FloatingActionButton saveButton;
-    FloatingActionButton deleteButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +74,7 @@ public class FeelwriteActivity extends AppCompatActivity {
         flag.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                if(aBoolean){
+                if (aBoolean) {
                     finish();
                 }
             }
@@ -85,7 +83,7 @@ public class FeelwriteActivity extends AppCompatActivity {
         //날짜선택
         EditText date = (EditText) findViewById(R.id.datePicker);
 
-        SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월 dd일");
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy년 MM월 dd일");
         String format_time1 = format1.format(myCalendar.getTime());
         date.setText(format_time1); //gettext 가져온다
 
@@ -99,7 +97,7 @@ public class FeelwriteActivity extends AppCompatActivity {
         //시간선택
         final EditText et_time = (EditText) findViewById(R.id.timePicker);
 
-        SimpleDateFormat format2 = new SimpleDateFormat ( "HH시 mm분");
+        SimpleDateFormat format2 = new SimpleDateFormat("HH시 mm분");
         Calendar Ttime = Calendar.getInstance();
         String format_time2 = format2.format(Ttime.getTime());
         et_time.setText(format_time2); //gettext
@@ -112,7 +110,7 @@ public class FeelwriteActivity extends AppCompatActivity {
                 int minute = mcurrentTime.get(Calendar.MINUTE);
                 TimePickerDialog mTimePicker;
 
-                SimpleDateFormat format1 = new SimpleDateFormat ( "HH시 mm분");
+                SimpleDateFormat format1 = new SimpleDateFormat("HH시 mm분");
                 Calendar time = Calendar.getInstance();
                 String format_time1 = format1.format(time.getTime());
                 et_time.setText(format_time1);
@@ -138,16 +136,10 @@ public class FeelwriteActivity extends AppCompatActivity {
         });
 
 
+        //사진추가
+        imageView = (ImageView) findViewById(R.id.imageView);
 
-
-
-
-
-
-    //사진추가
-        imageView = (ImageView)findViewById(R.id.imageView);
-
-        imageView.setOnClickListener(new View.OnClickListener(){
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {   //갤러리 사진 가져오기
                 Intent intent = new Intent();
@@ -158,9 +150,8 @@ public class FeelwriteActivity extends AppCompatActivity {
         });
 
 
-
         //메뉴버튼클릭시
-        Button Menubutton= findViewById(R.id.menu);
+        Button Menubutton = findViewById(R.id.menu);
         Menubutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,32 +176,28 @@ public class FeelwriteActivity extends AppCompatActivity {
 
                 imageView.setLayoutParams(params);*/
 
-            }
+    }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_CODE)
-        {
-            if(resultCode == RESULT_OK) // 액션의 결과값
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == RESULT_OK) // 액션의 결과값
             {
-                try{
+                try {
                     DisplayMetrics met = new DisplayMetrics();
-                    WindowManager manager = (WindowManager)getApplicationContext().getSystemService((Context.WINDOW_SERVICE));
+                    WindowManager manager = (WindowManager) getApplicationContext().getSystemService((Context.WINDOW_SERVICE));
                     manager.getDefaultDisplay().getMetrics(met);
 
                     imageView.setImageURI(data.getData());
                     imageView.setTag("true");
                     ViewGroup.LayoutParams params = imageView.getLayoutParams();
-                    params.height = met.heightPixels/2;
-                }catch(Exception e)
-                {
+                    params.height = met.heightPixels / 2;
+                } catch (Exception e) {
 
                 }
-            }
-            else if(resultCode == RESULT_CANCELED)
-            {
+            } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, "사진 선택 취소", Toast.LENGTH_LONG).show();
             }
         }
@@ -222,74 +209,44 @@ public class FeelwriteActivity extends AppCompatActivity {
         textView_Date = findViewById(R.id.datePicker);
         FloatingActionButton saveButton = findViewById(R.id.saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 int typeId = radioGroup.getCheckedRadioButtonId();
                 EditText inputcontent = findViewById(R.id.content);
-                if(inputcontent.getText().toString().trim().length() == 0) return;
-                if(typeId == -1) return;
-                try{
+                if (inputcontent.getText().toString().trim().length() == 0)
+                    return;
+                if (typeId == -1) return;
+                try {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy,MM,dd", Locale.KOREA);
 
                     String content = inputcontent.getText().toString().trim();
 
                     Data data = new Data();
                     data.setContent(content); //나머지 데이터들 넣기
-                    Log.d("FeelWriteActivity",imageView.getTag()+"");
-                    if(imageView.getTag()!=null){
-                        BitmapDrawable bitDraw = (BitmapDrawable)imageView.getDrawable();
+                    if (imageView.getTag() != null) {
+                        BitmapDrawable bitDraw = (BitmapDrawable) imageView.getDrawable();
                         Bitmap bitmap = bitDraw.getBitmap();
 
                         String fileName = UUID.randomUUID().toString();
-                        File file = new File(getCacheDir(),fileName+".jpg");
+                        File file = new File(getCacheDir(), fileName + ".jpg");
                         FileOutputStream fos = new FileOutputStream(file);
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                         data.setImageview(file.getPath());
-             
-        contentText = findViewById(R.id.content);
-        saveButton = findViewById(R.id.saveButton);
-        deleteButton = findViewById(R.id.deleteButton);
-
-        Data tempData = getIntent().getParcelableExtra("DATA");
-        if(tempData !=null) dataUsageInput(tempData);
-        else{
-            saveButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int typeId = radioGroup.getCheckedRadioButtonId();
-                    EditText inputcontent = findViewById(R.id.content);
-                    if(inputcontent.getText().toString().trim().length() == 0) return;
-                    if(typeId == -1) return;
-                    try{
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy,MM,dd", Locale.KOREA);
-
-                        String content = inputcontent.getText().toString().trim();
-
-                        Data data = new Data();
-                        data.setContent(content); //나머지 데이터들 넣기
-                        if(imageView.getTag()!=null){
-                            BitmapDrawable bitDraw = (BitmapDrawable)imageView.getDrawable();
-                            Bitmap bitmap = bitDraw.getBitmap();
-
-                            String fileName = UUID.randomUUID().toString();
-                            File file = new File(getCacheDir(),fileName+".jpg");
-                            FileOutputStream fos = new FileOutputStream(file);
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                            data.setImageview(file.getPath());
-                        }
-                        data.setMood(getMoodType(typeId));
-                        data.setDate(sdf.format(myCalendar.getTime()));
-
-                        repository.insert(data, flag);
-                    }catch (Exception e){
-                        e.printStackTrace();
                     }
-                
+                    data.setMood(getMoodType(typeId));
+                    data.setDate(sdf.format(myCalendar.getTime()));
+
+                    repository.insert(data, flag);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                
-            });
-        }
+
+            }
+
+        });
     }
+
     private void updateLabel() {
         String myFormat = "yyyy년 MM월 dd일";    // 출력형식   2018/11/28
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.KOREA);
@@ -300,7 +257,7 @@ public class FeelwriteActivity extends AppCompatActivity {
 
 
     //숨겨진옵션메뉴
-    private void popupmenu(View v){
+    private void popupmenu(View v) {
 
 
         PopupMenu p = new PopupMenu(
@@ -321,13 +278,14 @@ public class FeelwriteActivity extends AppCompatActivity {
         p.show(); // 메뉴를 띄우기
     }
 
-//숨겨진버튼
+    //숨겨진버튼
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.popupmenu, menu);
         return true;
     }
+
     public void dd(View v) {
         Toast.makeText(getApplicationContext(), "dd", Toast.LENGTH_SHORT).show();
     }
@@ -343,9 +301,10 @@ public class FeelwriteActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    private int getMoodType(int id){
-        int type=0;
-        switch (id){
+
+    private int getMoodType(int id) {
+        int type = 0;
+        switch (id) {
             case R.id.feelingBtn1:
                 type = Data.VERY_HAPPY;
                 break;
@@ -364,9 +323,10 @@ public class FeelwriteActivity extends AppCompatActivity {
         }
         return type;
     }
-    private int getMoodRadioType(int id){
-        int type=0;
-        switch (id){
+
+    private int getMoodRadioType(int id) {
+        int type = 0;
+        switch (id) {
             case Data.VERY_HAPPY:
                 type = R.id.feelingBtn1;
                 break;
@@ -385,13 +345,15 @@ public class FeelwriteActivity extends AppCompatActivity {
         }
         return type;
     }
-    private void dataUsageInput(Data data){
+
+    private void dataUsageInput(Data data) {
         String[] dateStr = data.getDate().split(",");
 
         deleteButton.setVisibility(View.VISIBLE);
 
-        myCalendar.set(Integer.parseInt(dateStr[0]),Integer.parseInt(dateStr[1])-1,Integer.parseInt(dateStr[2]));
-        if(data.getImageview()!=null)imageView.setImageURI(Uri.parse(data.getImageview()));
+        myCalendar.set(Integer.parseInt(dateStr[0]), Integer.parseInt(dateStr[1]) - 1, Integer.parseInt(dateStr[2]));
+        if (data.getImageview() != null)
+            imageView.setImageURI(Uri.parse(data.getImageview()));
         contentText.setText(data.getContent());
         radioGroup.check(getMoodRadioType(data.getMood()));
         updateLabel();
@@ -402,8 +364,8 @@ public class FeelwriteActivity extends AppCompatActivity {
             public void onClick(View v) {
                 File file = new File(data.getImageview());
                 file.delete();
-                repository.delete(data,flag);
-                Toast.makeText(getApplication(),"삭제되었습니다",Toast.LENGTH_LONG).show();
+                repository.delete(data, flag);
+                Toast.makeText(getApplication(), "삭제되었습니다", Toast.LENGTH_LONG).show();
             }
         });
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -411,8 +373,8 @@ public class FeelwriteActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int typeId = radioGroup.getCheckedRadioButtonId();
                 EditText inputcontent = findViewById(R.id.content);
-                if(inputcontent.getText().toString().trim().length() == 0) return;
-                if(typeId == -1) return;
+                if (inputcontent.getText().toString().trim().length() == 0) return;
+                if (typeId == -1) return;
                 try {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy,MM,dd", Locale.KOREA);
 
@@ -433,14 +395,15 @@ public class FeelwriteActivity extends AppCompatActivity {
                     temp.setMood(getMoodType(typeId));
                     temp.setDate(sdf.format(myCalendar.getTime()));
 
-                    if(temp.getImageview()!=null && !temp.getImageview().equals(data.getImageview())){
+                    if (temp.getImageview() != null && !temp.getImageview().equals(data.getImageview())) {
                         File file = new File(data.getImageview());
                         file.delete();
                     }
                     temp.setId(data.getId());
                     repository.update(temp, flag);
                     Toast.makeText(getApplication(), "수정되었습니다", Toast.LENGTH_LONG).show();
-                }catch (Exception e){}
+                } catch (Exception e) {
+                }
             }
         });
     }
