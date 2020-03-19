@@ -19,6 +19,8 @@ import android.widget.Toast;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
@@ -41,8 +43,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         final Data data=dataArrayList.get(position);
         final int cardId=data.getId();
         String img = data.getImageview(); //경로에있던 이미지를 불러온다.
-      //  holder.image.setImageResource(img);//비트맵(변수이름변경)
-         // 기분에 받는값에 따라(switch)
+        //holder.image.setImageResource(img);//비트맵(변수이름변경)
+        // 기분에 받는값에 따라(switch)
         if(data.getImageview()!=null){
             holder.image.setImageURI(Uri.parse(data.getImageview()));
             ViewGroup.LayoutParams params = holder.image.getLayoutParams();
@@ -55,6 +57,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         }
 
         holder.title.setText(data.getContent());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy년MM월dd일");
+        String[] saveDate = data.getDate().split(",");
+        Calendar c = Calendar.getInstance();
+        c.set(Integer.parseInt(saveDate[0]),Integer.parseInt(saveDate[1]),Integer.parseInt(saveDate[2]));
+        holder.dateText.setText(format.format(c.getTime()));
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +85,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         TextView title;
         CardView cardview;
         ImageView moodImage;
+        TextView dateText;
         int cardId;
 
 
@@ -87,6 +95,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             title=(TextView)itemView.findViewById(R.id.content);
             cardview=(CardView)itemView.findViewById(R.id.cardview);
             moodImage=itemView.findViewById(R.id.imageView2);
+            dateText=itemView.findViewById(R.id.dateTextView);
         }
     }
     private Drawable drawableMoodImage(int type){

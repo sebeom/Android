@@ -35,13 +35,29 @@
 
                     card_view:srcCompat="@drawable/feel2"
                     tools:ignore="VectorDrawableCompat" />
-
-                <TextView
-                    android:id="@+id/content"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="10dp"
-                    android:text="ddd" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="ddd" />
+                    <TextView
+                        android:id="@+id/dateTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="10dp"
+                        android:textSize="10sp"
+                        android:gravity="right"
+                        android:layout_gravity="bottom"
+                        android:text="날짜" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
