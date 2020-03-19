@@ -241,7 +241,6 @@ public class FeelwriteActivity extends AppCompatActivity {
 
                         Data data = new Data();
                         data.setContent(content); //나머지 데이터들 넣기
-                        Log.d("FeelWriteActivity",imageView.getTag()+"");
                         if(imageView.getTag()!=null){
                             BitmapDrawable bitDraw = (BitmapDrawable)imageView.getDrawable();
                             Bitmap bitmap = bitDraw.getBitmap();
@@ -383,10 +382,38 @@ public class FeelwriteActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                File file = new File(data.getImageview());
-                file.delete();
-                repository.update(data,flag);
-                Toast.makeText(getApplication(),"수정되었습니다",Toast.LENGTH_LONG).show();
+                int typeId = radioGroup.getCheckedRadioButtonId();
+                EditText inputcontent = findViewById(R.id.content);
+                if(inputcontent.getText().toString().trim().length() == 0) return;
+                if(typeId == -1) return;
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy,MM,dd", Locale.KOREA);
+
+                    String content = inputcontent.getText().toString().trim();
+
+                    Data temp = new Data();
+                    temp.setContent(content); //나머지 데이터들 넣기
+                    if (imageView.getTag() != null) {
+                        BitmapDrawable bitDraw = (BitmapDrawable) imageView.getDrawable();
+                        Bitmap bitmap = bitDraw.getBitmap();
+
+                        String fileName = UUID.randomUUID().toString();
+                        File file = new File(getCacheDir(), fileName + ".jpg");
+                        FileOutputStream fos = new FileOutputStream(file);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                        temp.setImageview(file.getPath());
+                    }
+                    temp.setMood(getMoodType(typeId));
+                    temp.setDate(sdf.format(myCalendar.getTime()));
+
+                    if(temp.getImageview()!=null && !temp.getImageview().equals(data.getImageview())){
+                        File file = new File(data.getImageview());
+                        file.delete();
+                    }
+                    temp.setId(data.getId());
+                    repository.update(temp, flag);
+                    Toast.makeText(getApplication(), "수정되었습니다", Toast.LENGTH_LONG).show();
+                }catch (Exception e){}
             }
         });
     }

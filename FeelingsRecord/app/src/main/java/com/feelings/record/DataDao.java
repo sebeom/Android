@@ -14,7 +14,7 @@ public interface DataDao {
     @Insert
     long insert(Data data);
 
-    @Query("UPDATE data SET w")
+    @Update
     int update(Data data);
 
     /*@Query("DELETE FROM data")
