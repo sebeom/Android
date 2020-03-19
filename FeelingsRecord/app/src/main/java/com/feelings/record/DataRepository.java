@@ -15,6 +15,7 @@ public class DataRepository {
     private final DataDao dataDao;
     private final LiveData<List<Data>> allDatas;
 
+
     public DataRepository(Application application){
         DataRoomDatabase db = DataRoomDatabase.getDatabase(application);
         dataDao = db.dataDao();
