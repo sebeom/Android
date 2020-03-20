@@ -96,6 +96,7 @@ public class HabitAlarmActivity extends AppCompatActivity {
             public void onClick(View v) {
                 isLoop = !isLoop;
                 if(isLoop) lottieLoop.playAnimation();
+                else lottieLoop.cancelAnimation();
             }
         });
 
