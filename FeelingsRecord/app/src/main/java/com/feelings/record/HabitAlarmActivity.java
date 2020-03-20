@@ -51,6 +51,7 @@ public class HabitAlarmActivity extends AppCompatActivity {
         setContentView(R.layout.activity_habit_alarm);
 
         setView();
+        setAlarm();
 
     }
     private void setView(){
@@ -91,6 +92,7 @@ public class HabitAlarmActivity extends AppCompatActivity {
             }
         });
 
+
         loopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,7 +116,6 @@ public class HabitAlarmActivity extends AppCompatActivity {
                         calendar.set(Calendar.HOUR_OF_DAY,selectedHour);
                         calendar.set(Calendar.MINUTE,selectedMinute);
                         String state = "AM";
-                        // 선택한 시간이 12를 넘을경우 "PM"으로 변경 및 -12시간하여 출력 (ex : PM 6시 30분)
                         if (selectedHour > 12) {
                             selectedHour -= 12;
                             state = "PM";
@@ -138,11 +139,38 @@ public class HabitAlarmActivity extends AppCompatActivity {
         Calendar nextNotifyTime = new GregorianCalendar();
         nextNotifyTime.setTimeInMillis(millis);
         Date nextDate = nextNotifyTime.getTime();
-        String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분 ", Locale.getDefault()).format(nextDate);
-        Toast.makeText(getApplicationContext(),"[처음 실행시] 다음 알람은 " + date_text + "으로 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
-        Date currentTime = nextNotifyTime.getTime();
-        SimpleDateFormat HourFormat = new SimpleDateFormat("kk", Locale.getDefault());
-        SimpleDateFormat MinuteFormat = new SimpleDateFormat("mm", Locale.getDefault());
+
+        Button settingButton = findViewById(R.id.settingButton);
+        settingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(dateText.getText().equals("")) return;
+                // 현재 지정된 시간으로 알람 시간 설정
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeInMillis(System.currentTimeMillis());
+                cal.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                cal.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+                cal.set(Calendar.SECOND, 0);
+
+                // 이미 지난 시간을 지정했다면 다음날 같은 시간으로 설정
+                if (cal.before(Calendar.getInstance())) {
+                    cal.add(Calendar.DATE, 1);
+                }
+
+                Date currentDateTime = cal.getTime();
+                String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분 ", Locale.getDefault()).format(currentDateTime);
+                Toast.makeText(getApplicationContext(),date_text + "으로 알람이 설정되었습니다!", Toast.LENGTH_LONG).show();
+
+                //  Preference에 설정한 값 저장
+                SharedPreferences.Editor editor = getSharedPreferences("daily alarm", MODE_PRIVATE).edit();
+                editor.putLong("nextNotifyTime", (long)cal.getTimeInMillis());
+                editor.apply();
+
+
+                diaryNotification(cal);
+            }
+        });
     }
 
 

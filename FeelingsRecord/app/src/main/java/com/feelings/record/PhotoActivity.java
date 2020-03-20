@@ -13,6 +13,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import android.widget.GridView;
 
 import android.widget.AdapterView.OnItemClickListener;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -46,6 +48,7 @@ public class PhotoActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
     /**==========================================
@@ -161,28 +164,23 @@ public class PhotoActivity extends AppCompatActivity {
                     MediaStore.Images.Media.DATA,
                     MediaStore.Images.Media.DISPLAY_NAME
             };
-            Cursor cursor = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    proj, "bucket_display_name='cache'", null, null);
+            File file = new File(""+getCacheDir().getPath());
+            Uri uri = Uri.parse("content://"+getCacheDir().getPath());
+            Cursor cursor = getContentResolver().query( MediaStore.Images.Media.INTERNAL_CONTENT_URI,
+                    null, null, null, null);
 
-            if (cursor.moveToFirst()){
-                String ID;
-                String ImageID;
-                String Data;
+            String result;
+            for(File s : file.listFiles()){
+                Log.d("CursorColumns",s.getPath());
 
+            }
+            if (cursor != null && cursor.moveToFirst()){
+                int col_id = cursor.getColumnIndex("_id");
+                int col_data = cursor.getColumnIndex("_data");
+                int col_display_name = cursor.getColumnIndex("_display_name");
 
-                int IDCol = cursor.getColumnIndex(MediaStore.Images.Media._ID);
-                int DataCol = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
-                int ImageIDCol = cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME);
-                int num = 0;
                 do {
-                    ID = cursor.getString(IDCol);
-                    Data = cursor.getString(DataCol);
-                    ImageID = cursor.getString(ImageIDCol);
-                    num++;
-                    if (ImageID != null){
-                        IDs.add(ID);
-                        Datas.add(Data);
-                    }
+                    Log.d("CursorColumns",cursor.getString(col_data));
                 }while (cursor.moveToNext());
             }
             cursor.close();
