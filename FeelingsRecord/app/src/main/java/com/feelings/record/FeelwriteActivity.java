@@ -207,44 +207,48 @@ public class FeelwriteActivity extends AppCompatActivity {
         radioGroup = findViewById(R.id.radioGroup);
         imageView = findViewById(R.id.imageView);
         textView_Date = findViewById(R.id.datePicker);
-        FloatingActionButton saveButton = findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        contentText = findViewById(R.id.content);
+        saveButton = findViewById(R.id.saveButton);
+        deleteButton = findViewById(R.id.deleteButton);
 
-            @Override
-            public void onClick(View v) {
-                int typeId = radioGroup.getCheckedRadioButtonId();
-                EditText inputcontent = findViewById(R.id.content);
-                if (inputcontent.getText().toString().trim().length() == 0)
-                    return;
-                if (typeId == -1) return;
-                try {
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy,MM,dd", Locale.KOREA);
+        Data tempData = getIntent().getParcelableExtra("DATA");
+        if(tempData !=null) dataUsageInput(tempData);
+        else{
+            saveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int typeId = radioGroup.getCheckedRadioButtonId();
+                    EditText inputcontent = findViewById(R.id.content);
+                    if(inputcontent.getText().toString().trim().length() == 0) return;
+                    if(typeId == -1) return;
+                    try{
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy,MM,dd", Locale.KOREA);
 
-                    String content = inputcontent.getText().toString().trim();
+                        String content = inputcontent.getText().toString().trim();
 
-                    Data data = new Data();
-                    data.setContent(content); //나머지 데이터들 넣기
-                    if (imageView.getTag() != null) {
-                        BitmapDrawable bitDraw = (BitmapDrawable) imageView.getDrawable();
-                        Bitmap bitmap = bitDraw.getBitmap();
+                        Data data = new Data();
+                        data.setContent(content); //나머지 데이터들 넣기
+                        if(imageView.getTag()!=null){
+                            BitmapDrawable bitDraw = (BitmapDrawable)imageView.getDrawable();
+                            Bitmap bitmap = bitDraw.getBitmap();
 
-                        String fileName = UUID.randomUUID().toString();
-                        File file = new File(getCacheDir(), fileName + ".jpg");
-                        FileOutputStream fos = new FileOutputStream(file);
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                        data.setImageview(file.getPath());
+                            String fileName = UUID.randomUUID().toString();
+                            File file = new File(getCacheDir(),fileName+".jpg");
+                            FileOutputStream fos = new FileOutputStream(file);
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                            data.setImageview(file.getPath());
+                        }
+                        data.setMood(getMoodType(typeId));
+                        data.setDate(sdf.format(myCalendar.getTime()));
+
+                        repository.insert(data, flag);
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
-                    data.setMood(getMoodType(typeId));
-                    data.setDate(sdf.format(myCalendar.getTime()));
 
-                    repository.insert(data, flag);
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-
-            }
-
-        });
+            });
+        }
     }
 
     private void updateLabel() {
