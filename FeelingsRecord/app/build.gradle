@@ -30,7 +30,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
 
-}
+    }
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
@@ -108,14 +108,15 @@ dependencies {
     implementation('com.google.apis:google-api-services-drive:v3-rev136-1.25.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-    
+
 
     // 구글 캘린더
     implementation 'androidx.media:media:1.0.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'pub.devrel:easypermissions:0.3.0'
-    implementation('com.google.apis:google-api-services-calendar:v3-rev235-1.22.0'){
+    implementation('com.google.apis:google-api-services-calendar:v3-rev235-1.22.0') {
         exclude group: 'org.apache.httpcomponents'
     }
+    implementation 'com.airbnb.android:lottie:3.3.1'
 
 }

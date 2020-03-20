@@ -38,6 +38,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.feelings.record.calchart.CalendarChartActivity;
@@ -60,6 +61,9 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.Collections;
 
@@ -77,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
 
     private DataRepository repository;
     private LiveData<List<Data>> allDatas;
+
+    TextView debugText;
     RecyclerView recyclerView;
     RecyclerAdapter adapter;
 
@@ -85,13 +91,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-
-
-        // feel_list = new Feel_List();
-        // feel_write = new Feel_write();
-
         repository = new DataRepository(getApplication());
         allDatas = repository.getAllDatas();
+
         recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -100,6 +102,13 @@ public class MainActivity extends AppCompatActivity {
         allDatas.observe(this, new Observer<List<Data>>() { // 구독
             @Override
             public void onChanged(List<Data> data) {
+                /*Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                String json = gson.toJson(data);
+                List<Data> temp = gson.fromJson(json,new TypeToken<List<Data>>(){}.getType());
+
+                for(Data d : temp){
+                    debugText.append(d.getContent()+"\n");
+                }*/
 
                 if (adapter == null) {
                     adapter = new RecyclerAdapter(getApplicationContext(), data); // 객체만들기
@@ -174,6 +183,10 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case R.id.c :
                             intent = new Intent(getApplicationContext(), BackupActivity.class);
+                            startActivity(intent);
+                            break;
+                        case R.id.habitSetting:
+                            intent = new Intent(getApplicationContext(), HabitAlarmActivity.class);
                             startActivity(intent);
                             break;
                     }

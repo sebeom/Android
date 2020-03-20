@@ -362,10 +362,12 @@ public class FeelwriteActivity extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                File file = new File(data.getImageview());
-                file.delete();
-                repository.delete(data, flag);
-                Toast.makeText(getApplication(), "삭제되었습니다", Toast.LENGTH_LONG).show();
+                if(data.getImageview()!=null) {
+                    File file = new File(data.getImageview());
+                    file.delete();
+                }
+                repository.delete(data,flag);
+                Toast.makeText(getApplication(),"삭제되었습니다",Toast.LENGTH_LONG).show();
             }
         });
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -391,14 +393,19 @@ public class FeelwriteActivity extends AppCompatActivity {
                         FileOutputStream fos = new FileOutputStream(file);
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                         temp.setImageview(file.getPath());
+                    }else if(data.getImageview() != null){
+                        temp.setImageview(data.getImageview());
                     }
                     temp.setMood(getMoodType(typeId));
                     temp.setDate(sdf.format(myCalendar.getTime()));
 
-                    if (temp.getImageview() != null && !temp.getImageview().equals(data.getImageview())) {
-                        File file = new File(data.getImageview());
-                        file.delete();
+                    if(temp.getImageview()!=null && data.getImageview()!=null){
+                        if(!temp.getImageview().equals(data.getImageview())) {
+                            File file = new File(data.getImageview());
+                            file.delete();
+                        }
                     }
+
                     temp.setId(data.getId());
                     repository.update(temp, flag);
                     Toast.makeText(getApplication(), "수정되었습니다", Toast.LENGTH_LONG).show();
