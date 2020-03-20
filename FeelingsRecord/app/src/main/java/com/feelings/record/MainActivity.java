@@ -94,8 +94,6 @@ public class MainActivity extends AppCompatActivity {
         repository = new DataRepository(getApplication());
         allDatas = repository.getAllDatas();
 
-        debugText = findViewById(R.id.debugText);
-
         recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
