@@ -26,7 +26,6 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -39,6 +38,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.feelings.record.calchart.CalendarChartActivity;
@@ -61,6 +61,9 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.Collections;
 
@@ -78,21 +81,19 @@ public class MainActivity extends AppCompatActivity {
 
     private DataRepository repository;
     private LiveData<List<Data>> allDatas;
+
+    TextView debugText;
     RecyclerView recyclerView;
     RecyclerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
-        verifyStoragePermissions(MainActivity.this);
-
-
-        // feel_list = new Feel_List();
-        // feel_write = new Feel_write();
-
         repository = new DataRepository(getApplication());
         allDatas = repository.getAllDatas();
+
         recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -101,9 +102,16 @@ public class MainActivity extends AppCompatActivity {
         allDatas.observe(this, new Observer<List<Data>>() { // 구독
             @Override
             public void onChanged(List<Data> data) {
+                /*Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                String json = gson.toJson(data);
+                List<Data> temp = gson.fromJson(json,new TypeToken<List<Data>>(){}.getType());
+
+                for(Data d : temp){
+                    debugText.append(d.getContent()+"\n");
+                }*/
 
                 if (adapter == null) {
-                    adapter = new RecyclerAdapter(getApplicationContext(), data, 2); // 객체만들기
+                    adapter = new RecyclerAdapter(getApplicationContext(), data); // 객체만들기
                     recyclerView.setAdapter(adapter); //세팅을 해준다.
                 } else {
                     adapter.dataArrayList = data;
@@ -177,6 +185,10 @@ public class MainActivity extends AppCompatActivity {
                             intent = new Intent(getApplicationContext(), BackupActivity.class);
                             startActivity(intent);
                             break;
+                        case R.id.habitSetting:
+                            intent = new Intent(getApplicationContext(), HabitAlarmActivity.class);
+                            startActivity(intent);
+                            break;
                     }
                     return true;
                 }
@@ -208,149 +220,8 @@ public class MainActivity extends AppCompatActivity {
             return super.onOptionsItemSelected(item);
 
 
-//           findViewById(R.id.button).setOnClickListener(view -> openFilePicker());
-//           findViewById(R.id.button2).setOnClickListener(view -> createFile());
-//
-//            requestSignIn();
-        }
-
-        @Override
-        public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
-            GoogleSignIn.getSignedInAccountFromIntent(resultData).addOnSuccessListener(new OnSuccessListener<GoogleSignInAccount>() {
-                @Override
-                public void onSuccess(GoogleSignInAccount googleSignInAccount) {
-                    Log.i(TAG, "Signed in as " + googleSignInAccount.getEmail());
-
-                }
-            })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.e(TAG, "Unable to sign in!", e);
-                        }
-                    });
-            switch (requestCode) {
-                case REQUEST_CODE_SIGN_IN:
-                    if (resultCode == Activity.RESULT_OK && resultData != null) {
-                        handleSignInResult(resultData);
-                    }
-                    break;
-
-                case REQUEST_CODE_OPEN_DOCUMENT:
-                    if (resultCode == Activity.RESULT_OK && resultData != null) {
-                        Uri uri = resultData.getData();
-                        if (uri != null) {
-                            openFileFromFilePicker(uri);
-                        }
-                    }
-                    break;
-            }
-
-            super.onActivityResult(requestCode, resultCode, resultData);
-        }
-
-        private void requestSignIn() {
-            Log.d(TAG, "Requesting sign-in");
-            GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().requestScopes(new Scope(DriveScopes.DRIVE_FILE)).build();
-            GoogleSignInClient client = GoogleSignIn.getClient(this, signInOptions);
-
-            startActivityForResult(client.getSignInIntent(), REQUEST_CODE_SIGN_IN);
-        }
-
-        private void handleSignInResult(Intent result) {
-            GoogleSignIn.getSignedInAccountFromIntent(result)
-                    .addOnSuccessListener(googleAccount -> {
-                        Log.d(TAG, "Signed in as " + googleAccount.getEmail());
-
-                        GoogleAccountCredential credential =
-                                GoogleAccountCredential.usingOAuth2(
-                                        this, Collections.singleton(DriveScopes.DRIVE_FILE));
-                        credential.setSelectedAccount(googleAccount.getAccount());
-                        Drive googleDriveService =
-                                new Drive.Builder(
-                                        AndroidHttp.newCompatibleTransport(),
-                                        new GsonFactory(),
-                                        credential)
-                                        .setApplicationName("Drive API Migration")
-                                        .build();
-
-                        mDriveServiceHelper = new DriveServiceHelper(googleDriveService);
-                    })
-                    .addOnFailureListener(exception -> Log.e(TAG, "Unable to sign in.", exception));
-        }
-
-        private void openFilePicker() {
-            if (mDriveServiceHelper != null) {
-                Log.d(TAG, "Opening file picker.");
-
-                Intent pickerIntent = mDriveServiceHelper.createFilePickerIntent();
-
-                startActivityForResult(pickerIntent, REQUEST_CODE_OPEN_DOCUMENT);
-            }
-        }
-
-        private void openFileFromFilePicker(Uri uri) {
-            if (mDriveServiceHelper != null) {
-                Log.d(TAG, "Opening " + uri.getPath());
-
-                mDriveServiceHelper.openFileUsingStorageAccessFramework(getContentResolver(), uri)
-                        .addOnSuccessListener(nameAndContent -> {
-                            String name = nameAndContent.first;
-                            String content = nameAndContent.second;
-
-                            setReadOnlyMode();
-                        })
-                        .addOnFailureListener(exception ->
-                                Log.e(TAG, "Unable to open file from picker.", exception));
-            }
-        }
-
-        private void createFile() {
-            if (mDriveServiceHelper != null) {
-                Log.d(TAG, "Creating a file.");
-
-                mDriveServiceHelper.createFile().addOnSuccessListener(fileId -> readFile(fileId)).addOnFailureListener(exception -> Log.e(TAG, "Couldn't create file.", exception));
-            }
-        }
-
-        private void readFile(String fileId) {
-            if (mDriveServiceHelper != null) {
-                Log.d(TAG, "Reading file " + fileId);
-
-                mDriveServiceHelper.readFile(fileId).addOnSuccessListener(nameAndContent -> {
-                    String name = nameAndContent.first;
-                    String content = nameAndContent.second;
-
-                    setReadWriteMode(fileId);
-                }).addOnFailureListener(exception -> Log.e(TAG, "Couldn't read file.", exception));
-            }
-        }
-
-        private void setReadOnlyMode() {
-            mOpenFileId = null;
-        }
-
-        private void setReadWriteMode(String fileId) {
-            mOpenFileId = fileId;
 
         }
 
-        //앨범 보기위한 권한 추가
-        private static String[] PERMISSIONS_STORAGE = {
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-        };
-        private static final int REQUEST_EXTERNAL_STORAGE = 1;
 
-        public static void verifyStoragePermissions(Activity activity) {
-            int permission = ActivityCompat.checkSelfPermission(
-                    activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-            if (permission != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(
-                        activity,
-                        PERMISSIONS_STORAGE,
-                        REQUEST_EXTERNAL_STORAGE);
-            }
-        }
     }

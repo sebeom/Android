@@ -32,11 +32,9 @@ public class PieFragment extends Fragment {
 
         pieChart = v.findViewById(R.id.piechart);
 
-
         return v;
     }
     public void createPieChart(int[] feels){
-        pieChart.invalidate();
         pieChart.clear();
 
         ArrayList<Entry> NoOfEmp = new ArrayList<>();
@@ -70,7 +68,7 @@ public class PieFragment extends Fragment {
         String str="";
         switch (n){
             case 4:
-                str = "정말좋음";
+                str = "정말 좋음";
                 break;
             case 3:
                 str = "좋음";
