@@ -1,6 +1,8 @@
 package com.feelings.record;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -12,37 +14,47 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
+import android.view.Display;
 import android.view.View;
-import android.widget.ImageView;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class PhotoActivity extends AppCompatActivity {
     GridView gridView;
-    private Context mContext;
-    private Uri uri;
+    private Context context;
+    private Uri imageUri;
+
+    private static final String TAG = "PhotoActivity";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feel_photo);
-        mContext = this;
+        context = this;
 
         gridView = findViewById(R.id.gridView);
 
-        final ImageAdapter view = new ImageAdapter(this);
-        gridView.setAdapter(view);
+        final ImageAdapter ia = new ImageAdapter(this);
+        gridView.setAdapter(ia);
         gridView.setOnItemClickListener(new OnItemClickListener(){
             public void onItemClick(AdapterView<?> parent, View v, int position, long id){
-                view.callImageViewer(position);
+                ia.callImageViewer(position);
 
             }
         });
@@ -56,14 +68,14 @@ public class PhotoActivity extends AppCompatActivity {
         private ArrayList<String> thumbsIDList;
 
         ImageAdapter(Context c){
-            mContext = c;
+            context = c;
             thumbsDataList = new ArrayList<String>();
             thumbsIDList = new ArrayList<String>();
             getThumbInfo(thumbsIDList, thumbsDataList);
         }
 
         public final void callImageViewer(int selectedIndex){
-            Intent intent = new Intent(mContext, photoAdapter.class);
+            Intent intent = new Intent(context, photoAdapter.class);
             String imgPath = getImageInfo(thumbsIDList.get(selectedIndex));
             intent.putExtra("filename", imgPath);
             intent.setType("image/*");
@@ -87,7 +99,7 @@ public class PhotoActivity extends AppCompatActivity {
             ImageView imageView;
 
             if (convertView == null){
-                imageView = new ImageView(mContext);
+                imageView = new ImageView(context);
                 imageView.setLayoutParams(new GridView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,220));
                 imageView.setAdjustViewBounds(true);
                 imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
@@ -98,38 +110,37 @@ public class PhotoActivity extends AppCompatActivity {
             }
 
             /*앨범의 화질을 좋게하기위해 넣은코드 적용 안됨 손봐야함
-            * 아니면 밑에있는 섬네일을 수정*/
-            /*Display dp = ((WindowManager) mContext.getSystemService(
+             * 아니면 밑에있는 섬네일을 수정*/
+            /*Display dp = ((WindowManager) context.getSystemService(
                     Context.WINDOW_SERVICE)).getDefaultDisplay();
             int dpWidth = dp.getWidth();
             int dpHeight = dp.getHeight();*/
 
-            BitmapFactory.Options option = new BitmapFactory.Options();
-            option.inPreferredConfig = Bitmap.Config.RGB_565;
-            option.inJustDecodeBounds = true;
-            BitmapFactory.decodeResource(getResources(), R.id.gridView, option);
+            BitmapFactory.Options bo = new BitmapFactory.Options();
+            bo.inPreferredConfig = Bitmap.Config.RGB_565;
+            bo.inJustDecodeBounds = true;
+            BitmapFactory.decodeResource(getResources(), R.id.gridView, bo);
 
-            option.inSampleSize = 4;
+            bo.inSampleSize = 4;
 
-            ContentResolver resolver = getContentResolver();
+            ContentResolver cr = getContentResolver();
             int id = Integer.parseInt(thumbsIDList.get(position));
-            Bitmap bitmap = MediaStore.Images.Thumbnails.getThumbnail(resolver, id,
-                    MediaStore.Images.Thumbnails.MICRO_KIND, option);
-            // bitmap = getOrientationBitmap(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, bitmap);
+            Bitmap bitmap = MediaStore.Images.Thumbnails.getThumbnail(cr, id,
+                    MediaStore.Images.Thumbnails.MICRO_KIND, bo);
+            //bitmap = getOrientationBitmap(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, bitmap);
             imageView.setImageBitmap(bitmap);
 
             return imageView;
 
         }
 
-        // 이미지 각도 조절 적용안됨
-        public Bitmap getOrientationBitmap(Uri uri, Bitmap bitmap){
+        public Bitmap getOrientationBitmap(Uri uri, Bitmap bm){
             try {
                 ExifInterface exif = new ExifInterface(uri.getPath());
                 int exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
                 int exifDegree = exifOrientationToDegrees(exifOrientation);
-                bitmap = rotate(bitmap, exifDegree);
-                return bitmap;
+                bm = rotate(bm, exifDegree);
+                return bm;
             }
             catch (IOException e) {
                 e.printStackTrace();
@@ -156,52 +167,63 @@ public class PhotoActivity extends AppCompatActivity {
         }
 
         private void getThumbInfo(ArrayList<String> IDs, ArrayList<String> Datas){
+            /*String images = Environment.getExternalStorageDirectory() + "cache";
+            String imgPath = "/data/dara/com.feelings.record/cache";//or context.getCacheDir().getPath();
+            context.getCacheDir().getPath(); 로 하니까
+            /data/user/0/com.feelings.record/cache로 지정됨*/
+            String imgPath = "data/user/0/com.feelings.record/cache";
+            File file = new File(context.getCacheDir().getPath());
 
-            String[] proj = {MediaStore.Images.Media._ID,
-                    MediaStore.Images.Media.DATA,
-                    MediaStore.Images.Media.DISPLAY_NAME
-            };
-            Cursor cursor = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    proj, "bucket_display_name='cache'", null, null);
+            String[] proj = {MediaStore.Images.Media.DATA};
 
-            if (cursor.moveToFirst()){
+            Cursor cs = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    null, null
+                    , null
+                    ,null);
+            Log.d(TAG, "갤리러 보기 쿼리 : " + cs);
+
+
+            if (cs.moveToFirst()){
                 String ID;
                 String ImageID;
                 String Data;
 
 
-                int IDCol = cursor.getColumnIndex(MediaStore.Images.Media._ID);
-                int DataCol = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
-                int ImageIDCol = cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME);
+                int IDCol = cs.getColumnIndex(MediaStore.Images.Media._ID);
+                int DataCol = cs.getColumnIndex(MediaStore.Images.Media.DATA);
+                int ImageIDCol = cs.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME);
                 int num = 0;
                 do {
-                    ID = cursor.getString(IDCol);
-                    Data = cursor.getString(DataCol);
-                    ImageID = cursor.getString(ImageIDCol);
+                    ID = cs.getString(IDCol);
+                    Data = cs.getString(DataCol);
+                    ImageID = cs.getString(ImageIDCol);
                     num++;
                     if (ImageID != null){
                         IDs.add(ID);
                         Datas.add(Data);
                     }
-                }while (cursor.moveToNext());
+                }while (cs.moveToNext());
             }
-            cursor.close();
+            Log.d(TAG, "INTERNAL PRIVATE CACHE DIR: "
+                    + getCacheDir().getAbsolutePath());
+            cs.close();
             return;
         }
 
         private String getImageInfo(String thumbID){
             String imageDataPath = null;
             String[] proj = {MediaStore.Images.Media.DATA};
-            Cursor cursor = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            Cursor cs = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                     proj, "_ID='"+ thumbID +"'", null, null);
 
-            if (cursor.moveToFirst()){
-                if (cursor.getCount() > 0){
-                    int imgData = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
-                    imageDataPath = cursor.getString(imgData);
+            Log.d(TAG, "상세보기 쿼리 : " + cs);
+            if (cs.moveToFirst()){
+                if (cs.getCount() > 0){
+                    int imgData = cs.getColumnIndex(MediaStore.Images.Media.DATA);
+                    imageDataPath = cs.getString(imgData);
                 }
             }
-            cursor.close();
+            cs.close();
             return imageDataPath;
         }
     }

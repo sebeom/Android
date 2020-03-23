@@ -26,6 +26,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -83,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
+        verifyStoragePermissions(MainActivity.this);
 
 
         // feel_list = new Feel_List();
@@ -335,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //앨범 보기위한 권한 추가
-       /* private static String[] PERMISSIONS_STORAGE = {
+        private static String[] PERMISSIONS_STORAGE = {
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
         };
@@ -349,8 +350,7 @@ public class MainActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(
                         activity,
                         PERMISSIONS_STORAGE,
-                        REQUEST_EXTERNAL_STORAGE*/
-
-
-
+                        REQUEST_EXTERNAL_STORAGE);
+            }
+        }
     }

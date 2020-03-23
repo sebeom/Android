@@ -20,7 +20,6 @@ package="com.feelings.record">
     <application
         android:allowBackup="true"
         android:fullBackupContent="@xml/my_backup_rules"
-        android:backupAgent="MyBackupAgent"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -29,11 +28,11 @@ package="com.feelings.record">
         <meta-data android:name="com.google.android.backup.api_key"
             android:value="AEdPqrEAAAAIZZvCDThZh8M_osvijf4MiG1qWoYV9vA1PIhQRA" />
         <activity android:name=".MyPrefsBackupAgent"/>
-        <activity android:name=".BackupActivity" ></activity>
-        <activity android:name=".FeelwriteActivity"></activity>
+        <activity android:name=".BackupActivity"/>
+        <activity android:name=".FeelwriteActivity" />
         <activity android:name=".photoAdapter"
             android:theme="@style/Theme.AppCompat.Dialog"/>
-        <activity android:name=".calchart.CalendarChartActivity"></activity>
+        <activity android:name=".calchart.CalendarChartActivity" />
         <activity android:name=".PhotoActivity" />
         <activity android:name=".MainActivity">
 
@@ -44,7 +43,3 @@ package="com.feelings.record">
         </activity>
     </application>
 </manifest>
-
-
-
-
