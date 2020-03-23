@@ -162,12 +162,13 @@ public class PhotoActivity extends AppCompatActivity {
 
             String[] proj = {MediaStore.Images.Media._ID,
                     MediaStore.Images.Media.DATA,
-                    MediaStore.Images.Media.DISPLAY_NAME
+                    MediaStore.Images.Media.DISPLAY_NAME,
+                    MediaStore.Images.Media.DESCRIPTION,
             };
             File file = new File(""+getCacheDir().getPath());
             Uri uri = Uri.parse("content://"+getCacheDir().getPath());
-            Cursor cursor = getContentResolver().query( MediaStore.Images.Media.INTERNAL_CONTENT_URI,
-                    null, null, null, null);
+            Cursor cursor = getContentResolver().query( MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    proj, MediaStore.Images.Media.DESCRIPTION+"='FLR'", null, null);
 
             String result;
             for(File s : file.listFiles()){
@@ -178,9 +179,14 @@ public class PhotoActivity extends AppCompatActivity {
                 int col_id = cursor.getColumnIndex("_id");
                 int col_data = cursor.getColumnIndex("_data");
                 int col_display_name = cursor.getColumnIndex("_display_name");
+                int col_title = cursor.getColumnIndex(MediaStore.Images.Media.DESCRIPTION);
 
                 do {
-                    Log.d("CursorColumns",cursor.getString(col_data));
+                    Log.d("CursorColumns",cursor.getString(col_display_name)+" / DESCRIPTION : "+cursor.getString(col_title));
+                    if(cursor.getString(col_id)!= null){
+                        IDs.add(cursor.getString(col_id));
+                        Datas.add(cursor.getString(col_data));
+                    }
                 }while (cursor.moveToNext());
             }
             cursor.close();
