@@ -166,6 +166,7 @@ public class HabitAlarmActivity extends AppCompatActivity {
                 //  Preference에 설정한 값 저장
                 SharedPreferences.Editor editor = getSharedPreferences("daily alarm", MODE_PRIVATE).edit();
                 editor.putLong("nextNotifyTime", (long)cal.getTimeInMillis());
+                editor.putString("habit",getHabit(habitGroup.getCheckedRadioButtonId()));
                 editor.apply();
 
 
@@ -218,6 +219,30 @@ public class HabitAlarmActivity extends AppCompatActivity {
 //                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
 //                    PackageManager.DONT_KILL_APP);
 //        }
+    }
+    private String getHabit(int id){
+        String habitStr="";
+        switch (id){
+            case R.id.healthRadio:
+                habitStr="운동";
+                break;
+            case R.id.studyRadio:
+                habitStr="공부";
+                break;
+            case R.id.readRadio:
+                habitStr="독서";
+                break;
+            case R.id.sleepRadio:
+                habitStr="수면";
+                break;
+            case R.id.otherRadio:
+                habitStr=otherEdit.getText().toString();
+                break;
+            case R.id.meditationRadio:
+                habitStr="명상";
+                break;
+        }
+        return "["+habitStr+"]";
     }
 
 }
