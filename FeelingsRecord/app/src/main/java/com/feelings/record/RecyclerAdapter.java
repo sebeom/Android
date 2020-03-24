@@ -4,10 +4,14 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +27,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -50,7 +58,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         //holder.image.setImageResource(img);//비트맵(변수이름변경)
         // 기분에 받는값에 따라(switch)
         if(data.getImageview()!=null){
-            holder.image.setImageURI(Uri.parse(data.getImageview()));
+            Uri externalUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+            String[] projection = new String[]{
+                    MediaStore.Images.Media.DATA,
+                    MediaStore.Images.Media.DESCRIPTION,
+                    MediaStore.Images.Media.DISPLAY_NAME
+            };
+            Cursor cursor = content.getContentResolver().query(externalUri,projection,
+                    "_display_name='"+data.getImageview()+"' AND description='FLR'",null,null);
+            if(cursor != null && cursor.moveToFirst()){
+                    Drawable drawable = BitmapDrawable.createFromPath(cursor.getString(0));
+                    holder.image.setImageDrawable(drawable);
+            }
             ViewGroup.LayoutParams params = holder.image.getLayoutParams();
             params.height = 300;
         }

@@ -26,6 +26,8 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -45,6 +47,7 @@ import com.feelings.record.calchart.CalendarChartActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
+import java.io.File;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        permissionCheck();
         repository = new DataRepository(getApplication());
         allDatas = repository.getAllDatas();
 
@@ -102,13 +107,6 @@ public class MainActivity extends AppCompatActivity {
         allDatas.observe(this, new Observer<List<Data>>() { // 구독
             @Override
             public void onChanged(List<Data> data) {
-                /*Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                String json = gson.toJson(data);
-                List<Data> temp = gson.fromJson(json,new TypeToken<List<Data>>(){}.getType());
-
-                for(Data d : temp){
-                    debugText.append(d.getContent()+"\n");
-                }*/
 
                 if (adapter == null) {
                     adapter = new RecyclerAdapter(getApplicationContext(), data); // 객체만들기
@@ -223,5 +221,43 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        private void createFile() {
+            if (mDriveServiceHelper != null) {
+                Log.d(TAG, "Creating a file.");
 
-    }
+                mDriveServiceHelper.createFile().addOnSuccessListener(fileId -> readFile(fileId)).addOnFailureListener(exception -> Log.e(TAG, "Couldn't create file.", exception));
+            }
+        }
+
+        private void readFile(String fileId) {
+            if (mDriveServiceHelper != null) {
+                Log.d(TAG, "Reading file " + fileId);
+
+                mDriveServiceHelper.readFile(fileId).addOnSuccessListener(nameAndContent -> {
+                    String name = nameAndContent.first;
+                    String content = nameAndContent.second;
+
+                    setReadWriteMode(fileId);
+                }).addOnFailureListener(exception -> Log.e(TAG, "Couldn't read file.", exception));
+            }
+        }
+
+        private void setReadOnlyMode() {
+            mOpenFileId = null;
+        }
+
+        private void setReadWriteMode(String fileId) {
+            mOpenFileId = fileId;
+
+        }
+        private void permissionCheck(){
+            int permissionChecked = ContextCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE);
+            if(permissionChecked != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
+            }
+            if(ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+            }
+        }
+
+}

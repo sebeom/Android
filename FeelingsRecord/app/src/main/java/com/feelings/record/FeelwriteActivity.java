@@ -7,12 +7,20 @@ import androidx.lifecycle.Observer;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,8 +39,15 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -232,11 +247,7 @@ public class FeelwriteActivity extends AppCompatActivity {
                             BitmapDrawable bitDraw = (BitmapDrawable)imageView.getDrawable();
                             Bitmap bitmap = bitDraw.getBitmap();
 
-                            String fileName = UUID.randomUUID().toString();
-                            File file = new File(getCacheDir(),fileName+".jpg");
-                            FileOutputStream fos = new FileOutputStream(file);
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                            data.setImageview(file.getPath());
+                            data.setImageview(savePictures(bitmap));
                         }
                         data.setMood(getMoodType(typeId));
                         data.setDate(sdf.format(myCalendar.getTime()));
@@ -355,9 +366,27 @@ public class FeelwriteActivity extends AppCompatActivity {
 
         deleteButton.setVisibility(View.VISIBLE);
 
-        myCalendar.set(Integer.parseInt(dateStr[0]), Integer.parseInt(dateStr[1]) - 1, Integer.parseInt(dateStr[2]));
-        if (data.getImageview() != null)
-            imageView.setImageURI(Uri.parse(data.getImageview()));
+        myCalendar.set(Integer.parseInt(dateStr[0]),Integer.parseInt(dateStr[1])-1,Integer.parseInt(dateStr[2]));
+        if(data.getImageview()!=null){
+            Uri externalUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+            String[] projection = new String[]{
+                    MediaStore.Images.Media.DATA,
+                    MediaStore.Images.Media.DESCRIPTION,
+                    MediaStore.Images.Media.DISPLAY_NAME
+            };
+            Cursor cursor = getContentResolver().query(externalUri,projection,
+                    "_display_name='"+data.getImageview()+"' AND description='FLR'",null,null);
+            if(cursor != null && cursor.moveToFirst()){
+                Drawable drawable = BitmapDrawable.createFromPath(cursor.getString(0));
+                imageView.setImageDrawable(drawable);
+            }
+            DisplayMetrics met = new DisplayMetrics();
+            WindowManager manager = (WindowManager)getApplicationContext().getSystemService((Context.WINDOW_SERVICE));
+            manager.getDefaultDisplay().getMetrics(met);
+            ViewGroup.LayoutParams params = imageView.getLayoutParams();
+            params.height = met.heightPixels/2;
+
+        }
         contentText.setText(data.getContent());
         radioGroup.check(getMoodRadioType(data.getMood()));
         updateLabel();
@@ -367,8 +396,7 @@ public class FeelwriteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(data.getImageview()!=null) {
-                    File file = new File(data.getImageview());
-                    file.delete();
+                    deletePicture(data.getImageview());
                 }
                 repository.delete(data,flag);
                 Toast.makeText(getApplication(),"삭제되었습니다",Toast.LENGTH_LONG).show();
@@ -392,11 +420,7 @@ public class FeelwriteActivity extends AppCompatActivity {
                         BitmapDrawable bitDraw = (BitmapDrawable) imageView.getDrawable();
                         Bitmap bitmap = bitDraw.getBitmap();
 
-                        String fileName = UUID.randomUUID().toString();
-                        File file = new File(getCacheDir(), fileName + ".jpg");
-                        FileOutputStream fos = new FileOutputStream(file);
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                        temp.setImageview(file.getPath());
+                        temp.setImageview(savePictures(bitmap));
                     }else if(data.getImageview() != null){
                         temp.setImageview(data.getImageview());
                     }
@@ -405,8 +429,7 @@ public class FeelwriteActivity extends AppCompatActivity {
 
                     if(temp.getImageview()!=null && data.getImageview()!=null){
                         if(!temp.getImageview().equals(data.getImageview())) {
-                            File file = new File(data.getImageview());
-                            file.delete();
+                            deletePicture(data.getImageview());
                         }
                     }
 
@@ -417,5 +440,71 @@ public class FeelwriteActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    //이미지 저장 용도 스트림
+    private InputStream getImageInputStream(Bitmap bit){
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bit.compress(Bitmap.CompressFormat.JPEG,100,bytes);
+        byte[] bitmapData = bytes.toByteArray();
+        ByteArrayInputStream bs = new ByteArrayInputStream(bitmapData);
+
+        return bs;
+    }
+    private byte[] getByte(InputStream input) throws IOException{
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        int len = 0;
+        while((len = input.read(buffer))!=-1){
+            byteBuffer.write(buffer,0,len);
+        }
+        return byteBuffer.toByteArray();
+    }
+    private String savePictures(Bitmap bitmap){
+        String fileName = UUID.randomUUID().toString();
+        String imageName=null;
+
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.DISPLAY_NAME,fileName+".jpg");
+        values.put(MediaStore.Images.Media.MIME_TYPE,"image/*");
+        values.put(MediaStore.Images.Media.DESCRIPTION,"FLR");
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            values.put(MediaStore.Images.Media.IS_PENDING,1);
+        }
+        ContentResolver resolver = getContentResolver();
+        Uri item = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values);
+
+
+        try{
+            ParcelFileDescriptor pdf = resolver.openFileDescriptor(item,"w",null);
+            if(pdf != null){
+                InputStream inputStream = getImageInputStream(bitmap);
+                byte[] strToByte = getByte(inputStream);
+                FileOutputStream fos = new FileOutputStream(pdf.getFileDescriptor());
+                fos.write(strToByte);
+                fos.close();
+                inputStream.close();
+                pdf.close();
+                resolver.update(item,values,null,null);
+            }
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }catch (IOException e){
+            e.printStackTrace();
+        }finally {
+            imageName=fileName+".jpg";
+        }
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            values.clear();
+            values.put(MediaStore.Images.Media.IS_PENDING,0);
+            resolver.update(item,values,null,null);
+        }
+        return imageName;
+    }
+    private void deletePicture(String imageName){
+        getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                "_display_name='"+imageName+"'AND description='FLR'",null);
     }
 }

@@ -100,8 +100,8 @@ public class PhotoActivity extends AppCompatActivity {
                 imageView = (ImageView) convertView;
             }
 
-            /*?⑤쾾???붿쭏??醫뗪쾶?섍린?꾪빐 ?ｌ?肄붾뱶 ?곸슜 ?덈맖 ?먮킄?쇳븿
-             * ?꾨땲硫?諛묒뿉?덈뒗 ?щ꽕?쇱쓣 ?섏젙*/
+            /*앨범의 화질을 좋게하기위해 넣은코드 적용 안됨 손봐야함
+            * 아니면 밑에있는 섬네일을 수정*/
             /*Display dp = ((WindowManager) mContext.getSystemService(
                     Context.WINDOW_SERVICE)).getDefaultDisplay();
             int dpWidth = dp.getWidth();
@@ -125,7 +125,7 @@ public class PhotoActivity extends AppCompatActivity {
 
         }
 
-        // ?대?吏 媛곷룄 議곗젅 ?곸슜?덈맖
+        // 이미지 각도 조절 적용안됨
         public Bitmap getOrientationBitmap(Uri uri, Bitmap bitmap){
             try {
                 ExifInterface exif = new ExifInterface(uri.getPath());
@@ -162,12 +162,13 @@ public class PhotoActivity extends AppCompatActivity {
 
             String[] proj = {MediaStore.Images.Media._ID,
                     MediaStore.Images.Media.DATA,
-                    MediaStore.Images.Media.DISPLAY_NAME
+                    MediaStore.Images.Media.DISPLAY_NAME,
+                    MediaStore.Images.Media.DESCRIPTION,
             };
             File file = new File(""+getCacheDir().getPath());
             Uri uri = Uri.parse("content://"+getCacheDir().getPath());
-            Cursor cursor = getContentResolver().query( MediaStore.Images.Media.INTERNAL_CONTENT_URI,
-                    null, null, null, null);
+            Cursor cursor = getContentResolver().query( MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    proj, MediaStore.Images.Media.DESCRIPTION+"='FLR'", null, null);
 
             String result;
             for(File s : file.listFiles()){
@@ -178,9 +179,14 @@ public class PhotoActivity extends AppCompatActivity {
                 int col_id = cursor.getColumnIndex("_id");
                 int col_data = cursor.getColumnIndex("_data");
                 int col_display_name = cursor.getColumnIndex("_display_name");
+                int col_title = cursor.getColumnIndex(MediaStore.Images.Media.DESCRIPTION);
 
                 do {
-                    Log.d("CursorColumns",cursor.getString(col_data));
+                    Log.d("CursorColumns",cursor.getString(col_display_name)+" / DESCRIPTION : "+cursor.getString(col_title));
+                    if(cursor.getString(col_id)!= null){
+                        IDs.add(cursor.getString(col_id));
+                        Datas.add(cursor.getString(col_data));
+                    }
                 }while (cursor.moveToNext());
             }
             cursor.close();
