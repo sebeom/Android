@@ -36,7 +36,7 @@ public class BackupActivity extends AppCompatActivity {
 
         // Set the onClick listeners for the button bar.
         findViewById(R.id.button).setOnClickListener(view -> openFilePicker());
-        findViewById(R.id.button2).setOnClickListener(view -> createFile());
+        findViewById(R.id.backupButton).setOnClickListener(view -> createFile());
 
         // Authenticate the user. For most apps, this should be done when the user performs an
         // action that requires Drive access rather than in onCreate.

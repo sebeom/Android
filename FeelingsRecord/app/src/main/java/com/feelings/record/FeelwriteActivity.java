@@ -207,7 +207,7 @@ public class FeelwriteActivity extends AppCompatActivity {
         radioGroup = findViewById(R.id.radioGroup);
         imageView = findViewById(R.id.imageView);
         textView_Date = findViewById(R.id.datePicker);
-        contentText = findViewById(R.id.content);
+        contentText = findViewById(R.id.writeContent);
         saveButton = findViewById(R.id.saveButton);
         deleteButton = findViewById(R.id.deleteButton);
 
@@ -218,7 +218,7 @@ public class FeelwriteActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     int typeId = radioGroup.getCheckedRadioButtonId();
-                    EditText inputcontent = findViewById(R.id.content);
+                    EditText inputcontent = findViewById(R.id.writeContent);
                     if(inputcontent.getText().toString().trim().length() == 0) return;
                     if(typeId == -1) return;
                     try{
@@ -378,7 +378,7 @@ public class FeelwriteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int typeId = radioGroup.getCheckedRadioButtonId();
-                EditText inputcontent = findViewById(R.id.content);
+                EditText inputcontent = findViewById(R.id.writeContent);
                 if (inputcontent.getText().toString().trim().length() == 0) return;
                 if (typeId == -1) return;
                 try {
