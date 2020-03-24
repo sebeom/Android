@@ -35,6 +35,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
 
             Calendar current_calendar = Calendar.getInstance();
             Calendar nextNotifyTime = new GregorianCalendar();
+            String habitStr = sharedPreferences.getString("habit","");
             nextNotifyTime.setTimeInMillis(sharedPreferences.getLong("nextNotifyTime", millis));
 
             if (current_calendar.after(nextNotifyTime)) {

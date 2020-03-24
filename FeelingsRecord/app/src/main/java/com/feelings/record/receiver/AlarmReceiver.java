@@ -66,15 +66,16 @@ public class AlarmReceiver extends BroadcastReceiver {
                 notificationManager.createNotificationChannel(channel);
             }
         }else builder.setSmallIcon(R.mipmap.ic_launcher); // Oreo 이하에서 mipmap 사용하지 않으면 Couldn't create icon: StatusBarIcon 에러남
-
+        SharedPreferences sharedPreferences = context.getSharedPreferences("daily alarm", MODE_PRIVATE);
+        String habitStr = sharedPreferences.getString("habit","");
 
         builder.setAutoCancel(true)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
 
                 .setTicker("{Time to watch some cool stuff!}")
-                .setContentTitle("상태바 드래그시 보이는 타이틀")
-                .setContentText("상태바 드래그시 보이는 서브타이틀")
+                .setContentTitle("FLR 알람")
+                .setContentText("설정하신 "+habitStr+" 알람 시간이 되었습니다.")
                 .setContentInfo("INFO")
                 .setContentIntent(pendingI);
 
