@@ -2,11 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/w"
-        android:title="리스트보기" >
-
-    </item>
-    <item
         android:id="@+id/d"
         android:title="이달의 기분" >
 
