@@ -40,7 +40,7 @@
         android:layout_height="36dp"
         android:background="#A16AC34A"
         android:onClick="googleBackup"
-        android:text="구글 드라이브 백업하기"
+        android:text="구글 이메일 백업하기"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

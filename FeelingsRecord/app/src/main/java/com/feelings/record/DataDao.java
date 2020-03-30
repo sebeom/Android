@@ -25,6 +25,6 @@ public interface DataDao {
     /*@Query("DELETE FROM data WHERE id = :id")
     int deleteData(int id);*/
 
-    @Query("SELECT * from data ORDER BY id ASC")
+    @Query("SELECT * from data ORDER BY id DESC")
     LiveData<List<Data>> getAllDatas();
 }

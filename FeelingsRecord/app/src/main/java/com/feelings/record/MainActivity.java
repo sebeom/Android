@@ -169,12 +169,6 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onMenuItemClick(MenuItem item) {
                     Intent intent = new Intent();
                     switch (item.getItemId()) {
-                        case R.id.w :
-                            Toast.makeText(getApplicationContext(),
-                                    "팝업메뉴 이벤트 처리 - "
-                                            + item.getTitle(),
-                                    Toast.LENGTH_SHORT).show();
-                            break;
                         case R.id.d :
                             intent = new Intent(getApplicationContext(), CalendarChartActivity.class);
                             startActivity(intent);
